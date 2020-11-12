@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<title>Login Page</title>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="description" content="My Project, for www univercity class" >
+<meta name="author" content="Vasileios Georgoulas">
+<meta name="keywords" content="HTML,CSS,JavaScript, PHP">
+<link rel="stylesheet" href="../style.css">
+<script src="../MyJavaScriptFile.js"></script>
+</head>
+
+<body onload="errorLogin()">
+        <div class="bigTitle">
+            <h1>Sign In</h1>
+            <h5><p class="loginError" id="error"></p></h5>
+            <form action="../DashBoard.php" name="loginForm" method="POST">
+                <p><input type="text" required name="username" class="inputFields" placeholder="Username" id="username"></p>
+                <p><input type="password" required name="password" class="inputFields" placeholder="Password" id="password" onkeyup="passwordValidator()"></p>
+                <p><input type="submit" class="buttons" value="Press to Login..." /></p>
+            </form>
+            <p><a href="ForgotPassword.html" class="linkHref">Forgot your password?</a></p>
+            <p><a href="" class="linkHref">Sign up if you are new here.</a></p>
+        </div>
+   
+</body>
+</html> 
