@@ -1,7 +1,5 @@
 <?php
     
-
-
     function ConnectToDB(){
 
         $host = "localhost";
@@ -21,9 +19,5 @@
         
         $conn -> close();
    }
-
-
-
-
     
 ?>
