@@ -1,6 +1,7 @@
 <?php
     include '../DataBase/UserDataBaseService.php';
     include '../EmailService.php';
+
     if(GetUserIdByEmail($_POST["email"]) <= 0){
         header("Location: Login.html?result=errorEmail");
         exit;

@@ -1,5 +1,4 @@
 <?php 
-    include 'Authenticator.php';
     include 'DataBase/UserDataBaseService.php';
     
     $username = $_POST["username"];
