@@ -12,8 +12,9 @@
      //   header("Location: Login.html?result=errorEmail");
     //    exit;
     //}
-    if(!SendForgotPasswordEmail($email, $token)){
-        echo "<h3 style='color: red; text-align: center;' >Problem while sending email</h3>";
+    $mailResponse = SendForgotPasswordEmail($email, $token);
+    if(!$mailResponse){
+      echo "<h3 style='color: red; text-align: center;' >Problem while sending email ('')</h3>";
     }
 
 ?>
