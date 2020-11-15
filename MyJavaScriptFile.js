@@ -1,28 +1,67 @@
 
-function passwordValidator(){
-    var password = document.getElementById("password");
-    
-    if(password == "a"){
-        document.getElementById("username").innerHTML = "Hello World";
+function passwordValidation(){
+    var password = document.getElementById("pass").value;
+    var messages = null;
+
+    if (password.length < 6) {
+        messages = "<span style='color:Red;'>Must have at last 6 chars</span>";
+    } 
+    else if (password.search(/\d/) == -1) {
+        messages = "<span style='color:Red;'>Must have at last 1 number</span>";
+    } 
+    else if (password.search(/[A-Z]/) == -1) {
+        messages = "<span style='color:Red;'>Must have at last 1 capital letter</span>";
+    } 
+    else if (password.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+\.\,\;\:]/) != -1) {
+        messages = "<span style='color:Red;'>Invalid character</span>";
     }
-    else document.getElementById("username").innerHTML = "";
+    else messages = "<span style='color:Green;'>Your password is valid</span>";
+
+    document.getElementById("passwordvalidator").innerHTML = messages;
 }
 
 function errorLogin(){
-    const url = window.location.search;
+    var url = window.location.search;
     if(url.includes("errorlogin")){
-       document.getElementById("error").innerHTML = "Error Username or Password!!!";
+       document.getElementById("messages").innerHTML = "<span style='color:Red';>Error Username or Password!!!</span>";
     }
     if(url.includes("usernotfound")){
-        document.getElementById("error").innerHTML = "Can't find user!!!";
+        document.getElementById("messages").innerHTML = "<span style='color:Red;'>Can't find user!!!</span>";
     }
     if(url.includes("errorEmail")){
-        document.getElementById("error").innerHTML = "There is no user with this Email address";
+        document.getElementById("messages").innerHTML = "<span style='color:Red;'>There is no user with this Email address</span>";
+    }
+    if(url.includes("updated")){
+        document.getElementById("messages").innerHTML = "<span style='color:Blue;'>Password updated!</span>";
+    }
+    if(url.includes("userexists")){
+        document.getElementById("messages").innerHTML = "<span style='color:Red;'>This email address already exists.</span>";
+    }
+    if(url.includes("emptyfields")){
+        document.getElementById("messages").innerHTML = "<span style='color:Red;'>You have some empty fields</span>";
+    }
+    if(url.includes("error")){
+        document.getElementById("messages").innerHTML = "<span style='color:Red;'>Error processing. Try again</span>";
+    }
+
+}
+
+function resendEmailMessage(result){
+    if(result == false){
+        document.getElementById("m").innerHTML = "<span style='color:Red';>Error while sending email. Try again</span>";
     }
 }
 
-function resendEmail(email, token){
-    php.call(SendForgotPasswordEmail(email, token));
+function equality(){
+    var password1 = document.getElementById("pass").value;
+    var password2 = document.getElementById("re-pass").value;
+    if(password1 === password2 && password1 != ""){
+        document.getElementById("checkEquality").innerHTML = "<span style='color:Green;'>Passwords, are equal</span>";
+        document.getElementById("sbutton").disabled = false;
+    }
+    else document.getElementById("checkEquality").innerHTML = "<span style='color:Red;'>Passwords, are not equal</span>";
 }
+
+
 
 

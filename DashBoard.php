@@ -3,7 +3,7 @@
     
     $username = $_POST["username"];
     $password = $_POST["password"];
-    if(!isset($_SESSION["session"])){        
+    if(!isset($_SESSION["token"])){        
         if(!CheckUser($username, $password)){
             header("Location: Authorization/Login.html?result=errorlogin");
             exit;
@@ -34,7 +34,7 @@
 
 <body>
     <header class="header">Medical Agenda</header>
-    <div class="bigTitle">
+    <div style="width:auto;">
         <div class="sidebar">
             <a href="#" class="active">Home</a>
             <a href="#">Alpha</a>

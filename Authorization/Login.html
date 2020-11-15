@@ -15,14 +15,16 @@
 <body onload="errorLogin()">
         <div class="bigTitle">
             <h1>Sign In</h1>
-            <h5><p class="loginError" id="error"></p></h5>
+            <h5><p id="messages"></p></h5>
             <form action="../DashBoard.php" name="loginForm" method="POST">
+                <p style="text-align: left;">Username</p>
                 <p><input type="text" required name="username" class="inputFields" placeholder="Username" id="username"></p>
+                <p style="text-align: left;">Password</p>
                 <p><input type="password" required name="password" class="inputFields" placeholder="Password" id="password" onkeyup="passwordValidator()"></p>
                 <p><input type="submit" class="buttons" value="Press to Login..." /></p>
             </form>
             <p><a href="ForgotPassword.html" class="linkHref">Forgot your password?</a></p>
-            <p><a href="" class="linkHref">Sign up if you are new here.</a></p>
+            <p><a href="./Signup.html" class="linkHref">Sign up if you are new here.</a></p>
         </div>
    
 </body>

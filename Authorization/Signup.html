@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<title>SignUp Page</title>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="description" content="My Project, for www univercity class" >
+<meta name="author" content="Vasileios Georgoulas">
+<meta name="keywords" content="HTML,CSS,JavaScript, PHP">
+<link rel="stylesheet" href="../style.css">
+<script src="../MyJavaScriptFile.js"></script>
+</head>
+
+<body onload="errorLogin()">
+        <div class="bigTitle">
+            <h1>Registration</h1>
+            <h5><p id="messages"></p></h5>
+            <form action="./Registration.php" name="registerForm" method="POST">
+                <p style="text-align: left;">Username (your email) *</p>
+                <p><input type="email" required name="username" class="inputFields" placeholder="Email" id="username"></p>
+                <p style="text-align: left;">Password *</p>
+                <p><input type="text" required name="password" class="inputFields" placeholder="Password" id="pass" onkeyup="passwordValidation()" ></p>
+                <p style= "text-align:center" id="passwordvalidator"></p>
+                <p style="text-align: left;">Type again the password *</p>
+                <p><input type="password" required name="password2" class="inputFields" placeholder="Repeat Password" id="re-pass" onkeyup="equality()"></p>
+                <p style= "text-align:center" id="checkEquality"></p>
+                <p style="text-align: left;">First name</p>
+                <p><input type="text" name="firstname" class="inputFields" placeholder="First name"></p>
+                <p style="text-align: left;">Last name</p>
+                <p><input type="text" name="lastname" class="inputFields" placeholder="Last name"></p>
+                <p><input type="submit" class="buttons" id="sbutton" value="Press to SignUp..." disabled="true"/></p>
+            </form>
+            <p><a href="./Login.html" class="linkHref">Return to login form.</a></p>
+        </div>
+   
+</body>
+</html> 
