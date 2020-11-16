@@ -1,8 +1,9 @@
 <?php 
     include 'DataBase/UserDataBaseService.php';
+    include './Hellpers/AuthorizationHelper.php';
     
     $username = $_POST["username"];
-    $password = $_POST["password"];
+    $password = Hashing($_POST["password"]);
     if(!isset($_SESSION["token"])){        
         if(!CheckUser($username, $password)){
             header("Location: Authorization/Login.html?result=errorlogin");

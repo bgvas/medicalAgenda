@@ -1,5 +1,6 @@
 <?php
     include '../DataBase/UserDataBaseService.php';
+    include '../Hellpers/AuthorizationHelper.php';
     
     if(!isset($_POST["password"])){
         if(!isset($_GET["token"])){
@@ -20,7 +21,7 @@
         }
         $userId = $_POST['userId'];
         $password = $_POST["password"];
-        if(!UpdatePassword($password, $userId)){
+        if(!UpdatePassword(Hashing($password), $userId)){
             echo "<p align='center' style='color:Red;'>Error While Updating Password!!!</p>";
         }
         else{

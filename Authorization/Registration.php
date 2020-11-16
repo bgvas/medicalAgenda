@@ -1,6 +1,7 @@
 <?php
 
     include '../DataBase/UserDataBaseService.php';
+    include '../Hellpers/AuthorizationHelper.php';
     
     if(!isset($_POST["password"]) || !isset($_POST["username"])){
         header("Location: Signup.html?result=emptyfields");
@@ -22,7 +23,9 @@
         exit;
     }
 
-    if(!SaveUnRegistratedUser($email, $password, $firstname, $lastname)){
+    $hashingPassword = Hashing($password);
+
+    if(!SaveUnRegistratedUser($email, $hashingPassword, $firstname, $lastname)){
         header("Location: Signup.html?result=error");
         exit;
     }

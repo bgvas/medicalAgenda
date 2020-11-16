@@ -89,8 +89,7 @@
     function UpdatePassword($password, $userId){
         $connect = ConnectToDB();
         $dateNow = date('Y-m-d H:i:s');
-        $pass = 
-        $sql = "UPDATE user SET password ='$pass', modifiedat = '$dateNow' WHERE id = '$userId'";
+        $sql = "UPDATE user SET password ='$password', modifiedat = '$dateNow' WHERE id = '$userId'";
         $result = mysqli_query($connect, $sql);
         return $result;
     }
