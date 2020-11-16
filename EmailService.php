@@ -6,8 +6,6 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
-
-
 function SendEmail($toEmail, $bodyMessage, $subjectMessage){
     
     $mail = new PHPMailer();
@@ -25,7 +23,7 @@ function SendEmail($toEmail, $bodyMessage, $subjectMessage){
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
     $mail->Username = "medical.agenda.crm@gmail.com";
-    $mail->Password = "Sofitel05";
+    $mail->Password = "Sofitel06";
     //$mail->SMTPDebug = 4;
     $mail->SetFrom("medical.agenda.crm@gmail.com", "Medical Agenda");
     $mail->Subject = $subjectMessage;
@@ -37,10 +35,47 @@ function SendEmail($toEmail, $bodyMessage, $subjectMessage){
     
 }
 
-function RegisterUserEmail ($emailtoUser, $token){
+function RegisterUserEmail($emailtoUser, $token){
 
-    $subject = "User regitration email";
-    $body="<div></div>";
+    $subject = "User activation email";
+    $body= "
+    <!DOCTYPE html>
+        <html>
+            <head></head>
+            <style>
+                body{
+                    background-color: Gainsboro;
+                    width:auto;
+                }
+                .myDiv {
+                    width: auto;
+                    height: 50px;
+                    padding: 25px;
+                    font-size: 30px;
+                    text-align: center;
+                    color: Blue;
+                    border: 5px outset grey;
+                    background-color: lightblue;    
+                }
+                .messBody{
+                    background-color: Gainsboro;
+                    font-size: 25px; 
+                    color: Blue;
+                    display: block;
+                    text-align: center;
+                    padding: 30px;
+                }
+            </style>
+            <body>
+                <div class='myDiv'>Medical Agenda</div>
+                <div class ='messBody'>
+                    <p style='font-size: 15px;'>
+                        <a href='https://medicalagenda.000webhostapp.com/Authorization/Registration.php?token=$token'>Press here to activate your account</a>
+                    </p>
+                </div>
+            </body>
+        </html>";
+  
 
     return SendEmail($emailtoUser, $body, $subject);
 }
@@ -79,7 +114,7 @@ function SendForgotPasswordEmail($emailtoUser, $token){
             <body>
                 <div class='myDiv'>Medical Agenda</div>
                 <div class ='messBody'>
-                    <p style='font-size: 15px;'>
+                    <p style='font-size: 10px;'>
                         <a href='https://medicalagenda.000webhostapp.com/Authorization/SetNewPassword.php?token=$token'>Reset yout password!</a>
                     </p>
                 </div>

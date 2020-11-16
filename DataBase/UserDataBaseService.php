@@ -11,7 +11,7 @@
             }
                else return true;
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
         return false;
     }
 
@@ -26,7 +26,7 @@
                 return $row['id'];
             }
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
         return -1;
     }
 
@@ -37,7 +37,7 @@
         if($result = mysqli_query($connect, $sql)){
             return $token;
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
         return -1; 
     }
 
@@ -52,7 +52,7 @@
                 return $row['id'];
             }
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
         return -1;
     }
 
@@ -67,7 +67,22 @@
                 return $row['id'];
             }
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
+        return -1;
+    }
+
+    function GetEmailByToken($token){
+        $connect = ConnectToDB();
+        $sql = "SELECT * FROM user WHERE token='$token'";
+        if($result = mysqli_query($connect, $sql)){
+            if(mysqli_num_rows($result) <= 0){
+                return -1;
+            }
+            while($row = mysqli_fetch_array($result)){
+                return $row['username'];
+            }
+        }
+        DisconnectFromDB($connect);
         return -1;
     }
 
@@ -82,7 +97,7 @@
                 return $row['token'];
             }
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
         return -1;
     }
 
@@ -91,7 +106,12 @@
         $dateNow = date('Y-m-d H:i:s');
         $sql = "UPDATE user SET password ='$password', modifiedat = '$dateNow' WHERE id = '$userId'";
         $result = mysqli_query($connect, $sql);
-        return $result;
+        $refreshToken = GenerateToken($userId);
+        if($result == true && $refreshToken != -1){
+            return true;
+        }
+        else return false;
+
     }
 
     function CheckUserByEmail($email){
@@ -103,7 +123,7 @@
             }
             else return true;
         }
-        DisconnetFromDB($connect);
+        DisconnectFromDB($connect);
         return -1;
     }
 
@@ -117,8 +137,23 @@
             return true;
         }
         else{
-            DisconnetFromDB($connect);
+            DisconnectFromDB($connect);
             return false;
         } 
+    }
+
+    function ActivateUnregistratedUser($userId){
+        $connect = ConnectToDB();
+        $dateNow = date('Y-m-d H:i:s');
+        $sql = "UPDATE user SET isactive = 1, modifiedat = '$dateNow' WHERE id = '$userId'";
+        $result = mysqli_query($connect, $sql);
+        $refreshToken = GenerateToken($userId);
+        if($result == true && $refreshToken != -1){
+            return true;
+        }
+        else {
+            DisconnectFromDB($connect);
+            return false;
+        }
     }
 ?>

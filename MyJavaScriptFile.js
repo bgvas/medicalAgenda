@@ -20,7 +20,7 @@ function passwordValidation(){
     document.getElementById("passwordvalidator").innerHTML = messages;
 }
 
-function errorLogin(){
+function Responses(){
     var url = window.location.search;
     if(url.includes("errorlogin")){
        document.getElementById("messages").innerHTML = "<span style='color:Red';>Error Username or Password!!!</span>";
@@ -40,8 +40,14 @@ function errorLogin(){
     if(url.includes("emptyfields")){
         document.getElementById("messages").innerHTML = "<span style='color:Red;'>You have some empty fields</span>";
     }
-    if(url.includes("error")){
+    if(url.includes("errorProcess")){
         document.getElementById("messages").innerHTML = "<span style='color:Red;'>Error processing. Try again</span>";
+    }
+    if(url.includes("registrationerror")){
+        document.getElementById("messages").innerHTML = "<span style='color:Red;'>Error while sending registration email. Try again</span>";
+    }
+    if(url.includes("usercreated")){
+        document.getElementById("messages").innerHTML = "<span style='color:Blue;'>User created successful. Now Login to insert.</span>";
     }
 
 }
