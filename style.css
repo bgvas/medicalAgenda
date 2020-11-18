@@ -1,8 +1,25 @@
 @charset "UTF-8";
 
-.bigTitle{
+.body-color{
+    background: linear-gradient(to bottom, #000099 0%, #ccffff 100%);
+    background-repeat: repeat;
+    background-attachment: fixed;
+    margin-top: 10%;
+}
+.box{
     margin: 0 auto;
-    width: 315px;
+    width: 340px;
+    height:50%;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(87, 83, 83, 0.5);
+    border: 1px solid;
+    box-shadow: 5px 10px 8px darkblue;
+}
+
+.bigTitle{
+    width: auto;
+    margin: 0 auto;
     text-align: center;
     align-items: center;
 }
@@ -14,7 +31,7 @@
     flex-wrap: wrap;
 }
 h1{
-    color: blue;
+    color: darkblue;
 }
 h3{
     color:gray;
@@ -36,7 +53,7 @@ h3{
 }
 
 .inputFields{
-    width: 300px;
+    width: 80%;
     height: 30px;
     padding: 5px;
     border-radius: 5px;
@@ -52,6 +69,7 @@ h3{
 }
 .linkHref{
     font-size: 15px;
+    color: darkblue;
 }
 .header{
     top: 0;
