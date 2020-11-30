@@ -24,7 +24,7 @@
     align-items: center;
 }
 .container{
-    width:78%;
+    width:100%;
     margin-top: 5px;
     float: right;
     display: flex;
@@ -81,6 +81,7 @@ h3{
     color: white;
     height: 35px;
     display: block;
+    box-shadow: 5px 10px 8px grey;
 }
 
 .column{
@@ -96,6 +97,7 @@ h3{
 }
 @media screen and (max-width: 400px){
     .container{ 
+        width: 100%;
         flex-direction: column;
     }
 }
@@ -103,7 +105,8 @@ h3{
     margin: 0;
     padding: 0;
     width: 20%;
-    background-color: #f1f1f1;
+    background-color: rgba(87, 83, 83, 0.2);
+    box-shadow: 5px 10px 8px grey;
     position: fixed;
     height: 90%;
     overflow: auto;
@@ -118,7 +121,15 @@ h3{
 .sidebar a.active {
     background-color: skyblue;
     color: white;
-  }
+}
+.menu{}
+
+.menu:hover{
+    transition-duration: 1s;
+    background-color: lightslategray;
+    color: white;
+}
+
   @media screen and (max-width: 700px) {
     .sidebar {
       width: 100%;
@@ -129,7 +140,7 @@ h3{
     div.content {margin-left: 0;}
   }
   
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 300px) {
     .sidebar a {
       text-align: center;
       float: none;
@@ -146,3 +157,19 @@ h3{
     margin:10px;
     padding: 20px;
 }
+
+.max-width{
+    width:1000px
+}
+
+.container-fluid {
+    padding-right:0;
+    padding-left:0;
+    margin-right:auto;
+    margin-left:auto
+ }
+
+ .column{
+     margin-left:0;
+     width:100%;
+ }

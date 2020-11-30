@@ -1,7 +1,6 @@
 <?php
-    include 'Connect.php';
-
-        
+    include_once "Connect.php";
+             
     function CheckUser($username, $password){
         $connect = ConnectToDB();
         $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'";
@@ -19,22 +18,26 @@
         $connect = ConnectToDB();
         $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'";
         if($result = mysqli_query($connect, $sql)){
-            if(mysqli_num_rows($result) <= 0){
-                return -1;
-            }
             while($row = mysqli_fetch_array($result)){
                 return $row['id'];
+                DisconnectFromDB($connect);
+                exit;
             }
         }
-        DisconnectFromDB($connect);
-        return -1;
+        else{
+            DisconnectFromDB($connect);
+            return -1;
+            exit;
+        }
     }
 
     function GenerateToken($userId){
-        $token = bin2hex(openssl_random_pseudo_bytes(64));
         $connect = ConnectToDB();
-        $sql = "UPDATE user SET token='$token' WHERE id='$userId'";
-        if($result = mysqli_query($connect, $sql)){
+        $id = $userId;
+        $dateNow = date('Y-m-d H:i:s');
+        $token = bin2hex(openssl_random_pseudo_bytes(64));
+        $sql = "UPDATE user SET token = '$token', modifiedat = '$dateNow' WHERE id = '$id'";
+        if(mysqli_query($connect, $sql)){
             return $token;
         }
         DisconnectFromDB($connect);
@@ -42,18 +45,21 @@
     }
 
     function GetUserIdByToken($token){
+       
         $connect = ConnectToDB();
         $sql = "SELECT * FROM user WHERE token='$token'";
         if($result = mysqli_query($connect, $sql)){
-            if(mysqli_num_rows($result) <= 0){
-                return -1;
-            }
             while($row = mysqli_fetch_array($result)){
                 return $row['id'];
+                DisconnectFromDB($connect);
+                exit;
             }
         }
-        DisconnectFromDB($connect);
-        return -1;
+        else{
+            DisconnectFromDB($connect);
+            return "no sql run";
+            exit;
+        }
     }
 
     function GetUserIdByEmail($email){
@@ -156,4 +162,47 @@
             return false;
         }
     }
+
+    function GetFirstnameAndLastnameByUserId($userId){
+        $connect = ConnectToDB();
+        $sql = "SELECT * FROM user WHERE id='$userId'";
+        if($result = mysqli_query($connect, $sql)){
+            while($row = mysqli_fetch_array($result)){
+                $name = new stdClass;
+                $name->Firstname = $row['firstname'];
+                $name->Lastname = $row['lastname']; 
+                return $name;
+                exit;
+            }
+        }
+        else{
+            DisconnectFromDB($connect);
+            return false;
+            exit;
+        }
+    }
+
+    function GetUserByUserId($userId){
+        $connect = ConnectToDB();
+        $sql = "SELECT * FROM user WHERE id='$userId'";
+        if($result = mysqli_query($connect, $sql)){
+            while($row = mysqli_fetch_array($result)){
+                $name = new stdClass;
+                $name->Firstname = $row['firstname'];
+                $name->Lastname = $row['lastname'];
+                $name->Speciality = $row['speciality']; 
+                return $name;
+                exit;
+            }
+        }
+        else{
+            DisconnectFromDB($connect);
+            return false;
+            exit;
+        }
+    }
+
+   
 ?>
+
+
