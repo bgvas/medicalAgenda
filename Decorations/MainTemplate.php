@@ -22,9 +22,7 @@
         <link rel="stylesheet" href="./Decorations/style.css">
         
 </script>
-<body style="background-color:#f2f2f2">
-    
-    
+<body style="background-color:#f2f2f2" >
     <nav class="navbar shadow-sm navbar-expand-lg navbar-dark bg-primary">
         <a href="#" class="navbar-brand"><strong>Medical Agenda</strong></a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myBar">
@@ -32,14 +30,14 @@
         </button>
         <div id="myBar" class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Pattients</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Appointements</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Finance</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Exit</a></li>
+                <li class="nav-item"><a href="./DashBoard.php" class="nav-link"><span id = "home">Home</span></a></li>
+                <li class="nav-item"><a href="./Pattients/Pattients.php" class="nav-link"><span id = "pattients">Pattients</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span id = "appointments">Appointements</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span id="incomes">Incomes</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span id="profile">Profile</span></a></li>
+                <li class="nav-item"><a href="../Authorization/Login.html" class="nav-link">Exit</a></li>
             </ul>
         </div>
     </nav>
-    
+  
 

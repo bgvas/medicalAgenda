@@ -7,23 +7,70 @@
         header("Location: ../Authorization/Login.html?result=errorlogin");
         exit;
     }
-    
+        
     $userId =  GetUserIdByToken($_COOKIE['token']);
     if($userId <= 0){
         header("Location: ../Authorization/Login.html?result=usernotfound");
         exit;
     }
+    include_once "../Decorations/MainTemplate.php";  // use the base html template   
+    $token = GenerateToken($userId);        // refresh token in Cookie and in DB every time the user comes here
+    setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes ?>
 
-    // List of all pattients //
-    $totalnumber = GetNumberOfPattientsByUserId($userId);
-    $pages = $totalnumber/15;
-    if($pages - round($pages) > 0){
-        $pages = round($pages) + 1;
-    }
-    else $pages = round($pages);
-    $selection = 1;
-    $allPattientsByUser = GetPattientsByUserId($userId, $selection);
     
+    <title>Pattients</title>
+    <script>activateSelection("pattients")</script> <!-- Change Pattients-sellection text color, to white, in header bar -->
+
+    <div class="container-fluid " style="width:90%">
+    <div class="row justify-content-lg-center" style="margin-top:80px;">
+            <div class="col-12 col-lg-8 border">
+                <div class="p-2 bg-primary">AAAAA</div>
+            </div>
+            <div class="col-12 col-lg-3 border">
+                <div class="p-2 bg-primary">BBBBB</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <?php // List of all pattients //
+    /* $totalnumber = GetNumberOfPattientsByUserId($userId);
+    $allPattientsByUser = GetPattientsByUserId($userId); 
     if(!$allPattientsByUser){
         echo "No Data From DataBase";
         exit;
@@ -78,9 +125,11 @@
 
     // number of males and fmales //
     $total =  GetNumberOfFmalesAndMalesByUserId($userId);
-    echo $total->Males."   ".$total->Fmales; 
+    echo $total->Males."   ".$total->Fmales;  */
 ?>
    
     
-    <?php ob_end_flush();?>
+   </body>
+</html>
+<?php ob_end_flush();?>
 

@@ -4,38 +4,38 @@
     include_once 'DataBase/PattientDataBaseService.php';
     include_once './Hellpers/AuthorizationHelper.php';
 
-    // If user comes from login
-    if(isset($_POST['username']) || !isset($_POST['password'])){
+    // If user comes from login, must have username and password from POST response //
+    if(isset($_POST['username']) && isset($_POST['password'])){
         $password = Hashing($_POST['password']);
         $username = $_POST['username'];
-        if(!CheckUser($username, $password)){
+        if(!CheckUser($username, $password)){   // check if username and password, are valid
             header("Location: Authorization/Login.html?result=errorlogin");
             exit;
         }
-        $userId = GetUserIdByUsernameAndPassword($username, $password);
+        $userId = GetUserIdByUsernameAndPassword($username, $password); 
         if($userId <= 0){
             header("Location: Authorization/Login.html?result=usernotfound");
             exit;
         }
         $token = GenerateToken($userId);
-        setcookie("token", $token, time() + (86400));// Keep token alive for one day
-    } // if user is already loggedin
+        setcookie("token", $token, time() + (600));// Keep token alive for 10 minutes
+    } // if user is already loggedin, must have a valid token from COOKIE
     else if(isset($_COOKIE['token'])){
         $userId = GetUserIdByToken($_COOKIE['token']);
         if($userId <= 0){
             header("Location: Authorization/Login.html?result=usernotfound");
             exit;
         }
-        $token = GenerateToken($userId);
-        setcookie("token", $token, time() + (86400), '/');// one day
+        $token = GenerateToken($userId);        // refresh token in Cookie and in DB every time the user comes in dashboard
+        setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes
     } 
     else {
         header("Location: Authorization/Login.html?result=errorlogin");
         exit;
     }
    
-    include_once "./Decorations/MainTemplate.php";
-    $pattients = GetPattientsByUserId($userId, 1);
+    include_once "./Decorations/MainTemplate.php";  // use the base html template
+    $pattients = GetPattientsByUserId($userId);
 
     foreach($pattients as $p){
         if($p->UserId == null){
@@ -44,9 +44,10 @@
     }
     $user = GetUserByUserId($userId);
 ?>
+<script>activateSelection("home")</script>  <!-- Change Home-sellection text color, to white, in header bar -->
 <title>DashBoard</title>
 
-<!-- Chart For Montly pattient visits -->
+<!-- Chart For montly visits from pattients-->
 <script type="text/javascript">
 // Load google charts
 google.charts.load('current', {'packages':['corechart']});
@@ -82,7 +83,7 @@ function drawChart() {
           vAxis: {minValue: 0}
     };
 
-    // Display the chart inside the <div> element with id="piechart"
+    // Display the chart inside the <div> element with id="areachart"
     var chart = new google.visualization.AreaChart(document.getElementById('areachart'));
            
     chart.draw(data, options);

@@ -63,16 +63,15 @@ function equality(){
     var password2 = document.getElementById("re-pass").value;
     if(password1 === password2 && password1 != ""){
         document.getElementById("checkEquality").innerHTML = "<span style='color:Green;'>Passwords, are equal</span>";
-        document.getElementById("sbutton").disabled = false;
+        document.getElementById("sbutton").disabled = false; // submit button will stay inactive, until 2 passwords will be equal
     }
     else document.getElementById("checkEquality").innerHTML = "<span style='color:Red;'>Passwords, are not equal</span>";
 }
 
 
-function areaChartForMonthlyVisits(userId)
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
+function activateSelection(id){
+    document.getElementById(id).style.color = 'white';
+    document.getElementById(id).font-weight-bold;
+}
 
 

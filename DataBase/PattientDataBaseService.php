@@ -20,20 +20,20 @@
     }
 
 
-    function GetPattientsByUserId($userId, $page){
+    function GetPattientsByUserId($userId){
         $connect = ConnectToDB();
-        $limit = ($page * 15)-15;
-        $sql = "SELECT * FROM pattient WHERE userid = '$userId' ORDER BY lastname ASC LIMIT $limit, 15";
+       
+        $sql = "SELECT * FROM pattient WHERE userid = '$userId' ORDER BY lastname ASC";
         if($result = mysqli_query($connect, $sql)){
         
             $pattients = array();
             while($row = mysqli_fetch_array($result)){
                 
                 $pat = new stdClass();
-               // $pat->Id = $row['id'];
+                $pat->Id = $row['id'];
                 $pat->Lastname = $row['lastname'];
                 $pat->Firstname = $row['firstname'];
-               /*  $pat->Gender = $row['gender'];
+                $pat->Gender = $row['gender'];
                 $pat->Age = $row['age'];
                 $pat->Address = $row['address'];
                 $pat->Town = $row['town'];
@@ -41,7 +41,7 @@
                 $pat->Amka = $row['amka'];
                 $pat->Insurance = $row['insurance'];
                 $pat->CreatedAt = $row['createdat'];
-                $pat->LastVisitAt = $row['lastvisitat']; */
+                $pat->LastVisitAt = $row['lastvisitat'];
                 $pat->UserId = $row['userid'];
                             
                 $pattients[] = $pat;
