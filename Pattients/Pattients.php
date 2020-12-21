@@ -23,11 +23,25 @@
 
     <div class="container-fluid " style="width:90%">
     <div class="row justify-content-lg-center" style="margin-top:80px;">
-            <div class="col-12 col-lg-8 border">
-                <div class="p-2 bg-primary">AAAAA</div>
+            <div class="col-12 col-lg-8">
+                <div class="p-2 bg-primary border text-white" style="text-align:center"><h2>List of all patients</h2></div>
+                <div class="row">
+                    <div class="col-4 col-lg-1">ID</div>
+                    <div class="col-4 col-lg-1">Firtname</div>
+                    <div class="col-4 col-lg-1">Lastname</div>
+                    <div class="col-4 col-lg-1">Email</div>
+                    <div class="col-4 col-lg-1">Phone</div>
+                    <div class="col-4 col-lg-1">Address</div>
+                    <div class="col-4 col-lg-1">Town</div>
+                    <div class="col-4 col-lg-1">Age</div>
+                    <div class="col-4 col-lg-1">Insurance</div>
+                    <div class="col-4 col-lg-1">AMKA</div>
+                    <div class="col-4 col-lg-1">Active From</div>
+                    <div class="col-4 col-lg-1">Last visit</div>    
+                </div>
             </div>
-            <div class="col-12 col-lg-3 border">
-                <div class="p-2 bg-primary">BBBBB</div>
+            <div class="col-12 col-lg-3">
+                <div class="p-2 bg-primary border text-white" style="text-align:center"><h2>Statistics</h2></div>
             </div>
         </div>
     </div>

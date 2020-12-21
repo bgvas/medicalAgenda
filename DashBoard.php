@@ -19,7 +19,7 @@
         }
         $token = GenerateToken($userId);
         setcookie("token", $token, time() + (600));// Keep token alive for 10 minutes
-    } // if user is already loggedin, must have a valid token from COOKIE
+    } // if user is already logged in, must have a valid token from COOKIE
     else if(isset($_COOKIE['token'])){
         $userId = GetUserIdByToken($_COOKIE['token']);
         if($userId <= 0){
@@ -116,9 +116,9 @@ $(window).resize(function(){
                 <div class="p-2 bg-white" style="height:280px;">
                         <hr style="margin-top:0">
                         <div class="row justify-content">
-                            <div class="col-6 col-lg-6" syle="text-align:center">
+                            <div class="col-6 col-lg-6" style="text-align:center">
                                 <p class="text-black"><span class="text-primary"><strong><?php echo GetNumberOfPattientsByUserId($userId)?></strong></span></p>
-                                <p>Total Pattients</p>
+                                <p>Total Patients</p>
                             </div>
                             <div class="col-6 col-lg-6" style="text-align:center">
                                 <p class="text-black" ><span class="text-primary"><strong><?php echo "673"?></strong></span></p>
