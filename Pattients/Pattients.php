@@ -29,14 +29,14 @@
                     <div class="row">
                         <div class="col-4 col-lg-1"><strong>Lastname</strong></div>
                         <div class="col-4 col-lg-1"><strong>Firtname</strong></div>
-                        <div class="col-4 col-lg-1"><strong>ID</strong></div>
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>ID</strong></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none"><strong>Email</strong></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Phone</strong></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none"><strong>Address</strong></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Town</strong></div> <!-- Visible only on big screens-->
-                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Age</strong></div> <!-- Visible only on big screens-->
-                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Insurance</strong></div> <!-- Visible only on big screens-->
-                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>AMKA</strong></div><!--  Visible only on big screens-->
+                        <div class="col-4 col-lg-1 "></div>
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"></div><!--  Visible only on big screens-->
                         <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Active From</strong></div>  Visible only on big screens-->
                         <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Last visit</strong></div>  Visible only on big screens-->   
                     </div>
@@ -47,22 +47,22 @@
                         
                             foreach($allPatients as $patient){
                                 if($counter % 2 == 0){?> 
-                        <div class="p-1 border" >
+                        <div class="p-1 border  bg-white" style="text-align:center">
                                 <?php }else {?>
-                        <div class="p-1 border bg-secondary" style="text-align:center" id="odd">
+                        <div class="p-1 border" style="text-align:center">
                                 <?php }?>
                             
                             <div class="row">
-                                <div class="col-4 col-lg-1" style="font-size:0.7rem;"><?php echo $patient->Lastname;?></div>
-                                <div class="col-4 col-lg-1" style="font-size:0.7rem;"><?php echo $patient->Firstname;?></div>
-                                <div class="col-4 col-lg-1" style="font-size:0.7rem;"><?php echo $patient->Id;?></div>
-                                <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.6rem;"><?php echo $patient->Email;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Phone;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Address;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Town;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Age;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Insurance;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Amka;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1" style="font-size:0.8rem;"><?php echo $patient->Lastname;?></div>
+                                <div class="col-4 col-lg-1" style="font-size:0.8rem;"><?php echo $patient->Firstname;?></div>
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Id;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Email;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Phone;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Address;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Town;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1"><a class="btn btn-primary btn-sm" href="#" role="button">View</a></div>
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><a class="btn btn-info btn-sm" href="#" role="button">Edit</a></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><a class="btn btn-danger btn-sm" href="#" role="button">Delete</a></div><!-- Visible only on big screens-->
                                 <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;">22/11/2020</div>
                                 <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;">22/11/2020</div>-->
                             </div>
