@@ -74,4 +74,7 @@ function activateSelection(id){
     document.getElementById(id).font-weight-bold;
 }
 
+function OddDiv(){
+    document.getElementById(odd).style.backgroundColor = "Grey";
+}
 

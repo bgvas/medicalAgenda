@@ -24,24 +24,59 @@
     <div class="container-fluid " style="width:90%">
     <div class="row justify-content-lg-center" style="margin-top:80px;">
             <div class="col-12 col-lg-8">
-                <div class="p-2 bg-primary border text-white" style="text-align:center"><h2>List of all patients</h2></div>
-                <div class="row">
-                    <div class="col-4 col-lg-1">ID</div>
-                    <div class="col-4 col-lg-1">Firtname</div>
-                    <div class="col-4 col-lg-1">Lastname</div>
-                    <div class="col-4 col-lg-1">Email</div>
-                    <div class="col-4 col-lg-1">Phone</div>
-                    <div class="col-4 col-lg-1">Address</div>
-                    <div class="col-4 col-lg-1">Town</div>
-                    <div class="col-4 col-lg-1">Age</div>
-                    <div class="col-4 col-lg-1">Insurance</div>
-                    <div class="col-4 col-lg-1">AMKA</div>
-                    <div class="col-4 col-lg-1">Active From</div>
-                    <div class="col-4 col-lg-1">Last visit</div>    
+                <div class="p-2 bg-primary border text-white" style="text-align:center"><h4>List of all patients</h4></div>
+                <div class="p-1 border bg-light" style="text-align:center">
+                    <div class="row">
+                        <div class="col-4 col-lg-1"><strong>Lastname</strong></div>
+                        <div class="col-4 col-lg-1"><strong>Firtname</strong></div>
+                        <div class="col-4 col-lg-1"><strong>ID</strong></div>
+                        <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none"><strong>Email</strong></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Phone</strong></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none"><strong>Address</strong></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Town</strong></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Age</strong></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Insurance</strong></div> <!-- Visible only on big screens-->
+                        <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>AMKA</strong></div><!--  Visible only on big screens-->
+                        <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Active From</strong></div>  Visible only on big screens-->
+                        <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Last visit</strong></div>  Visible only on big screens-->   
+                    </div>
+                    <div style="overflow:hidden;overflow-y:scroll;text-align:center">
+                            <?php
+                            $allPatients = GetPatientsByUserId($userId);
+                            $counter = 0;
+                        
+                            foreach($allPatients as $patient){
+                                if($counter % 2 == 0){?> 
+                        <div class="p-1 border" >
+                                <?php }else {?>
+                        <div class="p-1 border bg-secondary" style="text-align:center" id="odd">
+                                <?php }?>
+                            
+                            <div class="row">
+                                <div class="col-4 col-lg-1" style="font-size:0.7rem;"><?php echo $patient->Lastname;?></div>
+                                <div class="col-4 col-lg-1" style="font-size:0.7rem;"><?php echo $patient->Firstname;?></div>
+                                <div class="col-4 col-lg-1" style="font-size:0.7rem;"><?php echo $patient->Id;?></div>
+                                <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.6rem;"><?php echo $patient->Email;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Phone;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Address;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Town;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Age;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Insurance;?></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"><?php echo $patient->Amka;?></div><!-- Visible only on big screens-->
+                                <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;">22/11/2020</div>
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;">22/11/2020</div>-->
+                            </div>
+                        </div><?php  $counter++; }?>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="p-2 bg-primary border text-white" style="text-align:center"><h2>Statistics</h2></div>
+                <div class="p-2 bg-primary border text-white" style="text-align:center"><h4>Statistics</h4></div>
+                <div class="p-1 border" style="text-align:center">
+                    <div class="row">
+                        <div class="col-4 col-lg-1" style="text-align:center"><strong>Alpha</strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

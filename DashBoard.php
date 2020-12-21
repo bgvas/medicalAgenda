@@ -35,9 +35,9 @@
     }
    
     include_once "./Decorations/MainTemplate.php";  // use the base html template
-    $pattients = GetPattientsByUserId($userId);
+    $patients = GetPatientsByUserId($userId);
 
-    foreach($pattients as $p){
+    foreach($patients as $p){
         if($p->UserId == null){
             exit;
         }
@@ -58,7 +58,7 @@ function drawChart() {
     var data = google.visualization.arrayToDataTable([
         ['Month', 'Visits'],
         <?php
-            if($pattients == null){
+            if($patients == null){
                 ?> 
                     document.getElementById('areachart').innerHtml = "No Data";
                     return;
@@ -66,7 +66,7 @@ function drawChart() {
             }
             else{
                 $i = 1;
-                foreach($pattients as $row){
+                foreach($patients as $row){
                     echo "['".$row->Firstname."',".$i++."],";
                 }
             }
@@ -203,9 +203,9 @@ $(window).resize(function(){
                 </div>
                 <div style="margin-left:5px;height:150px;overflow:hidden;overflow-y:scroll;text-align:center">
                     <?php 
-                        $recentPattients = GetRecentPattientsByUserId($userId); // Get List with recent pattients from DB 
-                        if($recentPattients != null){
-                            foreach($recentPattients as $pattient){
+                        $recentPatients = GetRecentPatientsByUserId($userId); // Get List with recent pattients from DB 
+                        if($recentPatients != null){
+                            foreach($recentPatients as $pattient){
                                 echo "<a href='#'><div class='row'>"
                     ?> 
                     <div class="col-4 col-lg-2 "  style="font-size:0.7rem;">

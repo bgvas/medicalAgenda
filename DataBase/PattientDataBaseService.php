@@ -20,7 +20,7 @@
     }
 
 
-    function GetPattientsByUserId($userId){
+    function GetPatientsByUserId($userId){
         $connect = ConnectToDB();
        
         $sql = "SELECT * FROM pattient WHERE userid = '$userId' ORDER BY lastname ASC";
@@ -43,6 +43,7 @@
                 $pat->CreatedAt = $row['createdat'];
                 $pat->LastVisitAt = $row['lastvisitat'];
                 $pat->UserId = $row['userid'];
+                $pat->Email = $row['email'];
                             
                 $pattients[] = $pat;
             }
@@ -98,7 +99,7 @@
 
     }
 
-    function GetRecentPattientsByUserId($userId){
+    function GetRecentPatientsByUserId($userId){
         $connect = ConnectToDB();
         $sql = "SELECT * FROM pattient WHERE userid = '$userId' AND lastvisitat = createdat ORDER BY lastname ASC";
         if($result = mysqli_query($connect, $sql)){
@@ -120,6 +121,7 @@
                 $pat->CreatedAt = $row['createdat'];
                 $pat->LastVisitAt = $row['lastvisitat']; 
                 $pat->UserId = $row['userid'];
+                
                             
                 $pattients[] = $pat;
             }
