@@ -30,9 +30,9 @@
         </button>
         <div id="myBar" class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a href="./DashBoard.php" class="nav-link"><span id = "home">Home</span></a></li>
-                <li class="nav-item"><a href="./Pattients/Pattients.php" class="nav-link"><span id = "pattients">Pattients</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><span id = "appointments">Appointements</span></a></li>
+                <li class="nav-item"><a href="../DashBoard.php" class="nav-link"><span id = "home">Home</span></a></li>
+                <li class="nav-item"><a href="./Pattients/Pattients.php" class="nav-link"><span id = "patients">Patients</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link"><span id = "appointments">Appointments</span></a></li>
                 <li class="nav-item"><a href="#" class="nav-link"><span id="incomes">Incomes</span></a></li>
                 <li class="nav-item"><a href="#" class="nav-link"><span id="profile">Profile</span></a></li>
                 <li class="nav-item"><a href="../Authorization/Login.html" class="nav-link">Exit</a></li>

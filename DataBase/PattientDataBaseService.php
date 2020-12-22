@@ -2,7 +2,7 @@
     Include_once "Connect.php";
         
 
-    function GetNumberOfPattientsByUserId($userId){
+    function GetNumberOfPatientsByUserId($userId){
         $connect = ConnectToDB();
         $sql = "SELECT * FROM pattient WHERE userid = '$userId'";
         if($result = mysqli_query($connect, $sql)){
@@ -57,7 +57,7 @@
         exit;
     }
 
-    function GetAverageAgeOfPattientsByUserId($userId){
+    function GetAverageAgeOfPatientsByUserId($userId){
         $connect = ConnectToDB();
         $sql = "SELECT AVG(age) AS averageage FROM pattient WHERE userid = '$userId'";
         if($result = mysqli_query($connect, $sql)){
@@ -104,7 +104,7 @@
         $sql = "SELECT * FROM pattient WHERE userid = '$userId' AND lastvisitat = createdat ORDER BY lastname ASC";
         if($result = mysqli_query($connect, $sql)){
         
-            $pattients = array();
+            $patients = array();
             while($row = mysqli_fetch_array($result)){
                 
                 $pat = new stdClass();
@@ -123,9 +123,9 @@
                 $pat->UserId = $row['userid'];
                 
                             
-                $pattients[] = $pat;
+                $patients[] = $pat;
             }
-            return $pattients;
+            return $patients;
             DisconnectFromDB($connect);
             exit;
         }
@@ -135,4 +135,49 @@
         exit;
     }
     
+
+    function GetPatientsAgeAnalysis($userId){
+        $connect = ConnectToDB();
+        $a18To30 = 0;
+        $a31To50 = 0;
+        $a51To70 = 0;
+        $a70plus = 0;
+        $sql = "SELECT * FROM pattient WHERE userid = '$userId'";
+        if($result = mysqli_query($connect, $sql)){
+        
+            $patients = new stdClass();
+            while($row = mysqli_fetch_array($result)){
+                if($row['age'] >= 18 && $row['age'] < 31){
+                    $a18To30++;
+                    continue;
+                }
+                else if($row['age'] < 51){
+                    $a31To50++;
+                    continue;
+                }
+                else if($row['age'] <= 70 ){
+                    $a51To70++;
+                    continue;
+                }
+                else if($row['age'] > 70){
+                    $a70plus++;
+                    continue;
+                }
+            }
+           
+            $patients->a18To30 = $a18To30;
+            $patients->a31To50 = $a31To50;
+            $patients->a51To70 = $a51To70;
+            $patients->a70plus = $a70plus;
+            
+            return $patients;
+            
+            DisconnectFromDB($connect);
+            exit;
+        }
+        
+        return false;
+        DisconnectFromDB($connect);
+        exit;
+    }
 ?>

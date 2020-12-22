@@ -18,8 +18,8 @@
     setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes ?>
 
     
-    <title>Pattients</title>
-    <script>activateSelection("pattients")</script> <!-- Change Pattients-sellection text color, to white, in header bar -->
+    <title>Patients</title>
+    <script>activateSelection("pattients")</script> <!-- Change Patients-selection text color, to white, in header bar -->
 
     <div class="container-fluid " style="width:90%">
     <div class="row justify-content-lg-center" style="margin-top:80px;">
@@ -34,13 +34,13 @@
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Phone</strong></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none"><strong>Address</strong></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Town</strong></div> <!-- Visible only on big screens-->
-                        <div class="col-4 col-lg-1 "></div>
+                        <div class="col-4 col-lg-1"></div>
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"></div><!--  Visible only on big screens-->
                         <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Active From</strong></div>  Visible only on big screens-->
                         <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Last visit</strong></div>  Visible only on big screens-->   
                     </div>
-                    <div style="overflow:hidden;overflow-y:scroll;text-align:center">
+                    <div style="overflow:hidden;overflow-y:scroll;text-align:center;height:600px;">
                             <?php
                             $allPatients = GetPatientsByUserId($userId);
                             $counter = 0;
@@ -71,114 +71,66 @@
                 </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="p-2 bg-primary border text-white" style="text-align:center"><h4>Statistics</h4></div>
-                <div class="p-1 border" style="text-align:center">
-                    <div class="row">
-                        <div class="col-4 col-lg-1" style="text-align:center"><strong>Alpha</strong>
+                <div class="p-2 bg-primary border text-white" style="text-align:center"><h4>My Patients</h4></div>
+                <div class="p-1 border bg-light">
+                    <div class="row justify-content-lg-center">
+                        <div class="col-6 col-lg-4" style="text-align:center"><strong>Total number: </strong></div>
+                        <div class="col-6 col-lg-4" style="text-align:center"><?php echo GetNumberOfPatientsByUserId($userId);?></div>
+                    </div>
+                    <div class="row justify-content-lg-center">
+                        <div class="col-6 col-lg-4" style="text-align:center"><strong>Average Age: </strong></div>
+                        <div class="col-6 col-lg-4" style="text-align:center"><?php echo GetAverageAgeOfPatientsByUserId($userId);?></div>
+                    </div>
+                    <div class="row justify-content-lg-center">
+                        <div class="col-6 col-lg-4" style="text-align:center"><strong>Females: </strong></div>
+                        <div class="col-6 col-lg-4" style="text-align:center"><?php echo GetNumberOfFmalesAndMalesByUserId($userId)->Fmales;?></div>
+                    </div>
+                    <div class="row justify-content-lg-center">
+                        <div class="col-6 col-lg-4" style="text-align:center"><strong>Males: </strong></div>
+                        <div class="col-6 col-lg-4" style="text-align:center"><?php echo GetNumberOfFmalesAndMalesByUserId($userId)->Males;?></div>
+                    </div>
+                    <div class="row justify-content-lg-center">
+                        <div class="col-lg col-md-1" >
+                            <!-- Chart For age analysis -->
+                            <?php $age = GetPatientsAgeAnalysis($userId);?>
+                            <script type="text/javascript">
+                                // Load google charts
+                                google.charts.load('current', {'packages':['corechart']});
+                                google.charts.setOnLoadCallback(drawChart);
+                                // Draw the chart and set the chart values
+                                function drawChart() {
+                                    var a18To30 = parseInt("<? echo $age->a18To30;?>");
+                                    var data = google.visualization.arrayToDataTable([
+                                       ['Age', 'Number of patients'],
+                                       <?php echo "['18-30',".$age->a18To30."],";
+                                       echo "['31-50',".$age->a31To50."],";
+                                       echo "['51-70',".$age->a51To70."],";
+                                       echo "['70plus',".$age->a70plus."],";?>
+                                    ]);
+
+                                    // Optional; add a title and set the width and height of the chart
+                                    var options = {
+                                        title: 'Age Analysis',
+                                        is3D: true,
+                                    };
+                                    // Display the chart inside the <div> element with id="piechart"
+                                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                                    chart.draw(data, options);
+                                }
+                            </script>
+                            <div class="bg-light p-2" id="piechart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <div class="row justify-content-lg-center">
+                        <div class="col-12"><div class="p-2 border" style="text-align:center">Hello</div></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   <?php // List of all pattients //
-    /* $totalnumber = GetNumberOfPattientsByUserId($userId);
-    $allPattientsByUser = GetPattientsByUserId($userId); 
-    if(!$allPattientsByUser){
-        echo "No Data From DataBase";
-        exit;
-    }
-    $aa = 1;
-    echo "<table>
-            <tr><td>A/A</td>
-                <td>Lastname</td>
-                <td>Firstname</td>
-                <td>PattientId</td>
-                <td>Age</td>
-                <td>Gender</td>
-                <td>Insurance</td>
-                <td>AMKA</td>
-                <td>Address</td>
-                <td>Town</td>
-                <td>Phone</td>
-                <td>Active from</td>
-                <td>Last visit</td>
-            </tr>";
-
-    foreach($allPattientsByUser as $pattient){
-        echo "<tr>
-                <td>"."$aa"."</td>
-                <td>".$pattient->Lastname."</td>
-                <td>".$pattient->Firstname."</td>
-                <td>".$pattient->Id."</td>
-                <td>".$pattient->Age."</td>
-                <td>".$pattient->Gender."</td>
-                <td>".$pattient->Insurance."</td>
-                <td>".$pattient->Amka."</td>
-                <td>".$pattient->Address."</td>
-                <td>".$pattient->Town."</td>
-                <td>".$pattient->Phone."</td>
-                <td>".$pattient->CreatedAt."</td>
-                <td>".$pattient->LastVisitAt."</td>
-        </tr>";
-                       
-      $aa++;         
-                
-    }
-    echo "</table>";
-    // List Of All Pattients ^^^^^^ //
-
-    
-    // Average Age of All Pattients //
-    if(GetAverageAgeOfPattientsByUserId($userId) == false){
-        echo "false";
-    }
-    else echo GetAverageAgeOfPattientsByUserId($userId);
-    
-
-    // number of males and fmales //
-    $total =  GetNumberOfFmalesAndMalesByUserId($userId);
-    echo $total->Males."   ".$total->Fmales;  */
-?>
-   
-    
-   </body>
+    </div>    
+</body>
 </html>
 <?php ob_end_flush();?>
 

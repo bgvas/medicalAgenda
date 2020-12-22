@@ -117,7 +117,7 @@ $(window).resize(function(){
                         <hr style="margin-top:0">
                         <div class="row justify-content">
                             <div class="col-6 col-lg-6" style="text-align:center">
-                                <p class="text-black"><span class="text-primary"><strong><?php echo GetNumberOfPattientsByUserId($userId)?></strong></span></p>
+                                <p class="text-black"><span class="text-primary"><strong><?php echo GetNumberOfPatientsByUserId($userId)?></strong></span></p>
                                 <p>Total Patients</p>
                             </div>
                             <div class="col-6 col-lg-6" style="text-align:center">
