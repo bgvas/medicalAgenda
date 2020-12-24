@@ -180,4 +180,40 @@
         DisconnectFromDB($connect);
         exit;
     }
+
+    function GetPatientByUserIdAndPatientId($userId, $id){
+        $connect = ConnectToDB();
+       
+        $sql = "SELECT * FROM pattient WHERE userid = '$userId' AND  id = $id";
+        if($result = mysqli_query($connect, $sql)){
+            $pat = new stdClass();
+            //$patients = array();
+            while($row = mysqli_fetch_array($result)){
+                
+                $pat->Id = $row['id'];
+                $pat->Lastname = $row['lastname'];
+                $pat->Firstname = $row['firstname'];
+                $pat->Gender = $row['gender'];
+                $pat->Age = $row['age'];
+                $pat->Address = $row['address'];
+                $pat->Town = $row['town'];
+                $pat->Phone = $row['phone'];
+                $pat->Amka = $row['amka'];
+                $pat->Insurance = $row['insurance'];
+                $pat->CreatedAt = $row['createdat'];
+                $pat->LastVisitAt = $row['lastvisitat'];
+                $pat->UserId = $row['userid'];
+                $pat->Email = $row['email'];
+                            
+                //$patient[] = $pat;
+            }
+            return $pat;//$patients;
+            DisconnectFromDB($connect);
+            exit;
+        }
+        
+        return false;
+        DisconnectFromDB($connect);
+        exit;
+    }
 ?>

@@ -20,7 +20,7 @@
     
     <title>Patients</title>
     <script>activateSelection("pattients")</script> <!-- Change Patients-selection text color, to white, in header bar -->
-
+    
     <div class="container-fluid " style="width:90%">
     <div class="row justify-content-lg-center" style="margin-top:80px;">
             <div class="col-12 col-lg-8">
@@ -37,10 +37,8 @@
                         <div class="col-4 col-lg-1"></div>
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"></div> <!-- Visible only on big screens-->
                         <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"></div><!--  Visible only on big screens-->
-                        <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Active From</strong></div>  Visible only on big screens-->
-                        <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><strong>Last visit</strong></div>  Visible only on big screens-->   
                     </div>
-                    <div style="overflow:hidden;overflow-y:scroll;text-align:center;height:600px;">
+                    <div style="overflow:hidden;overflow-y:scroll;text-align:center;height:565px;">
                             <?php
                             $allPatients = GetPatientsByUserId($userId);
                             $counter = 0;
@@ -60,11 +58,9 @@
                                 <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Phone;?></div><!-- Visible only on big screens-->
                                 <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Address;?></div><!-- Visible only on big screens-->
                                 <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Town;?></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1"><a class="btn btn-primary btn-sm" href="#" role="button">View</a></div>
+                                <div class="col-4 col-lg-1"><a class="btn btn-primary btn-sm" href="./PatientProfile.php?id=<?php echo $patient->Id;?>" role="button">View</a></div>
                                 <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><a class="btn btn-info btn-sm" href="#" role="button">Edit</a></div><!-- Visible only on big screens-->
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><a class="btn btn-danger btn-sm" href="#" role="button">Delete</a></div><!-- Visible only on big screens-->
-                                <!-- <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;">22/11/2020</div>
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.7rem;">22/11/2020</div>-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><button class="btn btn-danger btn-sm">Delete</button></div><!-- Visible only on big screens-->
                             </div>
                         </div><?php  $counter++; }?>
                     </div>
@@ -105,7 +101,7 @@
                                        <?php echo "['18-30',".$age->a18To30."],";
                                        echo "['31-50',".$age->a31To50."],";
                                        echo "['51-70',".$age->a51To70."],";
-                                       echo "['70plus',".$age->a70plus."],";?>
+                                       echo "['70 +',".$age->a70plus."],";?>
                                     ]);
 
                                     // Optional; add a title and set the width and height of the chart
@@ -123,8 +119,26 @@
                     </div>
                 </div>
                 <div class="pt-4">
-                    <div class="row justify-content-lg-center">
-                        <div class="col-12"><div class="p-2 border" style="text-align:center">Hello</div></div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="p-2 border bg-light">
+                                <div class="row p-4">
+                                    <div class="col-12" style="text-align:center">
+                                        <a class="btn btn-info btn-sm" style="width:200px" href="#" role="button">Add new patient</a>
+                                    </div>
+                                </div>
+                                <div class="row p-4">
+                                    <div class="col-12" style="text-align:center">
+                                        <a class="btn btn-info btn-sm" style="width:200px" href="#" role="button">Export as PDF</a>
+                                    </div>
+                                </div>
+                                <div class="row p-4">
+                                    <div class="col-12" style="text-align:center">
+                                        <a class="btn btn-info btn-sm" style="width:200px" href="#" role="button">Search by last name</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
