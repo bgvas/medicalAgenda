@@ -204,6 +204,10 @@
                 $pat->LastVisitAt = $row['lastvisitat'];
                 $pat->UserId = $row['userid'];
                 $pat->Email = $row['email'];
+                $pat->MedicalBio = $row['medicalBio'];
+                $pat->ZipCode = $row['zipcode'];
+                $pat->Profession = $row['profession'];
+
                             
                 //$patient[] = $pat;
             }

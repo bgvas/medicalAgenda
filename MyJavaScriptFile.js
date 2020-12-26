@@ -78,5 +78,6 @@ function OddDiv(){
     document.getElementById(odd).style.backgroundColor = "Grey";
 }
 
-
-
+function isNumber(evt) {
+   console.log("Hello");
+}
