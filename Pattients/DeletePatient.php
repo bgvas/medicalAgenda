@@ -17,6 +17,28 @@ include_once "../Decorations/MainTemplate.php";  // use the base html template
 $token = GenerateToken($userId);        // refresh token in Cookie and in DB every time the user comes here
 setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes ?>
 
-
 <title>Patients</title>
-<script>activateSelection("patients")</script> <!-- Change Patients-selection text color, to white, in header bar -->
+<script>
+    $.confirm({
+        title: 'Delete that Patient!',
+        content: 'Do you really want to continue?',
+        buttons: {
+            confirm: {
+                text: 'Delete',
+                btnClass: 'btn-danger',
+                action: function () {
+                    $.alert('Deleted!');
+                }
+            },
+            cancel: {
+                text: 'Cancel',
+                btnClass: 'btn-info',
+                action: function () {
+                    $.alert('Canceled.');
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

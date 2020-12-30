@@ -81,3 +81,6 @@ function OddDiv(){
 function isNumber(evt) {
    console.log("Hello");
 }
+function deleteAlert() {
+
+}
