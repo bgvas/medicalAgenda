@@ -220,4 +220,32 @@
         DisconnectFromDB($connect);
         exit;
     }
+
+    function UpdatePatientById($patientToUpdate){
+        $connect = ConnectToDB();
+
+        $sql = "UPDATE pattient
+            SET lastname = '$patientToUpdate->Lastname', 
+            firstname = '$patientToUpdate->Firstname',
+            age = '$patientToUpdate->Age',
+            address = '$patientToUpdate->Address',
+            town = '$patientToUpdate->Town',
+            phone = '$patientToUpdate->Phone',
+            zipcode = '$patientToUpdate->ZipCode',
+            profession = '$patientToUpdate->Profession',
+            email = '$patientToUpdate->Email',
+            medicalBio = '$patientToUpdate->MedicalBio'
+            WHERE id = '$patientToUpdate->Id'";
+
+        if($result = mysqli_query($connect, $sql)){
+            return true;
+            DisconnectFromDB($connect);
+            exit;
+        }
+        else{
+            return false;
+            DisconnectFromDB($connect);
+            exit;
+        }
+    }
 ?>

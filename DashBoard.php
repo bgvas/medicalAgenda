@@ -1,7 +1,7 @@
 <?php 
     ob_start();
     include_once 'DataBase/UserDataBaseService.php';
-    include_once 'DataBase/PattientDataBaseService.php';
+    include_once 'DataBase/PatientDataBaseService.php';
     include_once './Hellpers/AuthorizationHelper.php';
 
     // If user comes from login, must have username and password from POST response //

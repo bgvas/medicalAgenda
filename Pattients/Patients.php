@@ -1,7 +1,7 @@
 <?php
     ob_start();
     Require_once '../DataBase/UserDataBaseService.php';
-    Require_once '../DataBase/PattientDataBaseService.php';
+    require_once '../DataBase/PatientDataBaseService.php';
       
     if(!isset($_COOKIE['token'])){
         header("Location: ../Authorization/Login.html?result=errorlogin");
@@ -22,7 +22,7 @@
     <script>activateSelection("pattients")</script> <!-- Change Patients-selection text color, to white, in header bar -->
     
     <div class="container-fluid " style="width:90%">
-    <div class="row justify-content-lg-center" style="margin-top:80px;">
+        <div class="row justify-content-lg-center" style="margin-top:80px;">
             <div class="col-12 col-lg-8">
                 <div class="p-2 bg-primary border text-white" style="text-align:center"><h4>List of all patients</h4></div>
                 <div class="p-1 border bg-light" style="text-align:center">
@@ -59,7 +59,7 @@
                                 <div class="col-4 col-lg-2 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Address;?></div><!-- Visible only on big screens-->
                                 <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"><?php echo $patient->Town;?></div><!-- Visible only on big screens-->
                                 <div class="col-4 col-lg-1"><a class="btn btn-primary btn-sm" href="./PatientProfile.php?id=<?php echo $patient->Id;?>" role="button">View</a></div>
-                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><a class="btn btn-info btn-sm" href="#" role="button">Edit</a></div><!-- Visible only on big screens-->
+                                <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><a class="btn btn-info btn-sm" href="./EditPatientProfile.php?id=<?php echo $patient->Id;?>" role="button">Edit</a></div><!-- Visible only on big screens-->
                                 <div class="col-4 col-lg-1 d-none d-lg-block d-lg-none"><button class="btn btn-danger btn-sm">Delete</button></div><!-- Visible only on big screens-->
                             </div>
                         </div><?php  $counter++; }?>
@@ -93,7 +93,7 @@
                                 // Load google charts
                                 google.charts.load('current', {'packages':['corechart']});
                                 google.charts.setOnLoadCallback(drawChart);
-                                // Draw the chart and set the chart values
+                                // Set the data and draw the chart//
                                 function drawChart() {
                                     var a18To30 = parseInt("<? echo $age->a18To30;?>");
                                     var data = google.visualization.arrayToDataTable([

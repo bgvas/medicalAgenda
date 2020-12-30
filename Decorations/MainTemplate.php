@@ -20,6 +20,7 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>  
         <script src="./MyJavaScriptFile.js"></script>
         <link rel="stylesheet" href="./Decorations/style.css">
+    </head>
         
 </script>
 <body style="background-color:#f2f2f2" >
@@ -31,7 +32,7 @@
         <div id="myBar" class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a href="../DashBoard.php" class="nav-link"><span id = "home">Home</span></a></li>
-                <li class="nav-item"><a href="../Pattients/Pattients.php" class="nav-link"><span id = "patients">Patients</span></a></li>
+                <li class="nav-item"><a href="../Pattients/Patients.php" class="nav-link"><span id = "patients">Patients</span></a></li>
                 <li class="nav-item"><a href="#" class="nav-link"><span id = "appointments">Appointments</span></a></li>
                 <li class="nav-item"><a href="#" class="nav-link"><span id="incomes">Incomes</span></a></li>
                 <li class="nav-item"><a href="#" class="nav-link"><span id="profile">Profile</span></a></li>

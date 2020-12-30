@@ -1,7 +1,7 @@
 <?php
     ob_start();
     Require_once '../DataBase/UserDataBaseService.php';
-    Require_once '../DataBase/PattientDataBaseService.php';
+    require_once '../DataBase/PatientDataBaseService.php';
       
     if(!isset($_COOKIE['token'])){
         header("Location: ../Authorization/Login.html?result=errorlogin");
@@ -18,14 +18,14 @@
     setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes 
 
     if(!isset($_GET['id'])){
-        header("Location: ./Pattients.php");
+        header("Location: ./Patients.php");
         exit; 
     }
     $id = $_GET['id'];
     $patient = GetPatientByUserIdAndPatientId($userId, $id);
    
     if($patient == new stdClass()){
-        header("Location: ./Pattients.php");
+        header("Location: ./Patients.php");
         exit; 
     }
 ?>
@@ -35,7 +35,7 @@
     <div class="row justify-content-center" style="margin-top:80px;">
         <div class="col-12 col-lg-6">
             <div class="p-2 bg-primary border text-white" style="text-align:center"><h5>Patient's profile</h5></div>
-            <div class="p-1 border bg-light" style="height:550px">
+            <div class="p-1 border bg-light" style="height:600px">
                 <div class="row justify-content-center">
                     <div class="col-10 col-lg-5 p-2"><strong>Last name</strong>
                         <div class="border bg-white p-2" style="width:100%"><?php echo $patient->Lastname; ?></div>
@@ -78,7 +78,7 @@
         </div>
         <div class="col-12 col-lg-3">
             <div class="p-2 bg-primary border text-white" style="text-align:center"><h5>Personal details</h5></div>
-            <div class="p-1 border bg-light" style="height:550px">
+            <div class="p-1 border bg-light" style="height:600px">
                 <div class="row justify-content-center">
                     <div class="col-10 col-lg-10 p-2"><strong>AMKA</strong>
                        <div class="border bg-white p-2" style="width:100%"><?php echo $patient->Amka; ?></div>
