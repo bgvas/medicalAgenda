@@ -39,11 +39,12 @@
     $token = GenerateToken($userId);        // refresh token in Cookie and in DB every time the user comes here
     setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes 
 
-    if(!isset($_GET['id'])){
+    if(!isset($_POST['id'])){
         header("Location: ./Patients.php");
         exit; 
     }
-    $id = $_GET['id'];
+
+    $id = $_POST['id'];
     $patient = GetPatientByUserIdAndPatientId($userId, $id);
    
     if($patient == new stdClass()){
@@ -95,7 +96,7 @@
                         <input type="email" name="email" class="border border-primary p-2" style="width:100%" value="<?php echo $patient->Email; ?>"/>
                     </div>
                     <div class="col-5 col-lg-5 p-2 pb-4"><strong>Created at</strong>
-                        <div class="border bg-white p-2" style="width:100%" disabled='disabled'><?php echo $patient->CreatedAt; ?></div>
+                        <div class="border bg-white p-2" style="width:100%" disabled='disabled'><?php $date = new DateTime($patient->CreatedAt); echo $date->format('d-m-Y');?></div>
                     </div>
                 </div>
             </div>
@@ -111,12 +112,12 @@
                        <div class="border bg-white p-2" style="width:100%"><?php echo $patient->Insurance; ?></div>
                     </div>
                     <div class="col-10 col-lg-10 p-2"><strong>Last visit</strong>
-                       <div class="border bg-white p-2" style="width:100%"><?php echo $patient->LastVisitAt; ?></div>
+                       <div class="border bg-white p-2" style="width:100%"><?php $date = new DateTime($patient->LastVisitAt); echo $date->format('d-m-Y');?></div>
                     </div>
                     <div class="col-10 col-lg-10 p-2"><strong>Medical Bio</strong>
-                       <input type="text" name="medicalBio" class="border border-primary p-2 " style="width:100%;height:80px;font-size:0.8rem;overflow:hidden;overflow-y:scroll" value="<?php echo $patient->MedicalBio;?>" />
+                       <textarea name="medicalBio" class="border border-primary p-2 " style="width:100%;height:80px;font-size:0.8rem;overflow:hidden;overflow-y:scroll"><?php echo $patient->MedicalBio;?> </textarea>
                        <div class="p-2" style="width:100%;text-align:center"><input type="submit" class="btn btn-info btn-sm" style="width:60%" value="Save Changes"/></div>
-                        <div class="p-2" style="width:100%;text-align:center"><a href="./PatientProfile.php?id=<?php echo $patient->Id;?>" class="btn btn-info btn-sm" role="button" style="width:60%">Cancel</a></div>
+                        <div class="p-2" style="width:100%;text-align:center"><a href="./Patients.php" class="btn btn-info btn-sm" role="button" style="width:60%">Cancel</a></div>
                     </div>
                 </div>
             </div>
@@ -126,5 +127,18 @@
 </div>
 </body>
 </html>
+
+
+<script>
+// allow only numbers //
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+</script>
 
 <?php ob_end_flush();?>

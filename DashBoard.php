@@ -1,12 +1,13 @@
-<?php 
+<?php
+echo "Start" ; 
     ob_start();
-    include_once 'DataBase/UserDataBaseService.php';
-    include_once 'DataBase/PatientDataBaseService.php';
-    include_once './Hellpers/AuthorizationHelper.php';
+    
+    include 'DataBase/UserDataBaseService.php';
+    include 'DataBase/PatientDataBaseService.php';
 
     // If user comes from login, must have username and password from POST response //
     if(isset($_POST['username']) && isset($_POST['password'])){
-        $password = Hashing($_POST['password']);
+        $password = hashing($_POST['password']);
         $username = $_POST['username'];
         if(!CheckUser($username, $password)){   // check if username and password, are valid
             header("Location: Authorization/Login.html?result=errorlogin");
@@ -19,7 +20,7 @@
         }
         $token = GenerateToken($userId);
         setcookie("token", $token, time() + (600));// Keep token alive for 10 minutes
-    } // if user is already logged in, must have a valid token from COOKIE
+    } // if user is already logged in, must have a valid token in COOKIE
     else if(isset($_COOKIE['token'])){
         $userId = GetUserIdByToken($_COOKIE['token']);
         if($userId <= 0){
@@ -33,21 +34,34 @@
         header("Location: Authorization/Login.html?result=errorlogin");
         exit;
     }
-   
-    include_once "./Decorations/MainTemplate.php";  // use the base html template
     $patients = GetPatientsByUserId($userId);
 
-    foreach($patients as $p){
-        if($p->UserId == null){
-            exit;
-        }
-    }
     $user = GetUserByUserId($userId);
+
+
+    // if user is visitor redirect to VisitorsDashboard //
+    if($user->Role == "visitor"){ 
+
+        header("Location: ./Visitor/VisitorDashBoard.php");
+        exit;
+    }
+
+    // if user is admin redirect to AdminDashboard //
+    if($user->Role == "admin"){
+    
+        header("Location: ./Admin/AdminDashBoard.php");
+        exit;
+    }
+
+    include_once "./Decorations/MainTemplate.php";  // use the base html template
+   
+
+
 ?>
-<script>activateSelection("home")</script>  <!-- Change Home-sellection text color, to white, in header bar -->
+
 <title>DashBoard</title>
 
-<!-- Chart For montly visits from pattients-->
+<!-- Chart For monthly visits from patients-->
 <script type="text/javascript">
 // Load google charts
 google.charts.load('current', {'packages':['corechart']});
@@ -65,10 +79,19 @@ function drawChart() {
                 <?php 
             }
             else{
-                $i = 1;
-                foreach($patients as $row){
-                    echo "['".$row->Firstname."',".$i++."],";
-                }
+                    echo "['1',".VisitsPerMonth($userId, 1)."],";
+                    echo "['2',".VisitsPerMonth($userId, 2)."],";
+                    echo "['3',".VisitsPerMonth($userId, 3)."],";
+                    echo "['4',".VisitsPerMonth($userId, 4)."],";
+                    echo "['5',".VisitsPerMonth($userId, 5)."],";
+                    echo "['6',".VisitsPerMonth($userId, 6)."],";
+                    echo "['7',".VisitsPerMonth($userId, 7)."],";
+                    echo "['8',".VisitsPerMonth($userId, 8)."],";
+                    echo "['9',".VisitsPerMonth($userId, 9)."],";
+                    echo "['10',".VisitsPerMonth($userId, 10)."],";
+                    echo "['11',".VisitsPerMonth($userId, 11)."],";
+                    echo "['12',".VisitsPerMonth($userId, 12)."],";
+                
             }
         ?>
     ]);
@@ -100,7 +123,7 @@ $(window).resize(function(){
     <div class="row justify-content-lg-center" style="margin-top:80px;">
         <div class="col-lg-8 col-lg-push-3 col-sm-12 col-xs-12 order-lg-1 order-1" >
             <div class="p-2 bg-primary" style="height:120px">
-                <h4 style="color:white;padding-left:10px;padding-top:8px;padding-bottom:0px">Welcome Dr.  <?php echo " ".$user->Lastname." ".$user->Firstname ?></h4>
+                <h4 style="color:white;padding-left:10px;padding-top:8px;padding-bottom:0px">Welcome Dr.  <?php echo " ".$user->Lname." ".$user->Fname ?></h4>
                 <p style="color:white;padding-left:10px;padding-top:0px">Here are your important task and reports.</p> 
             </div>
         </div>
@@ -111,7 +134,7 @@ $(window).resize(function(){
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 col-lg-push-3 col-sm-12 col-xs-12 order-lg-3 order-9" ><div name="visits"  id="areachart" class="p-2 bg-white" style="height:250px"></div></div>
+        <div class="col-lg-8 col-lg-push-3 col-sm-12 col-xs-12 order-lg-3 order-5" ><div name="visits"  id="areachart" class="p-2 bg-white" style="height:250px"></div></div>
         <div class="col-lg-3 col-lg-push-3 col-sm-12 col-xs-12 order-lg-4 order-3" style="height:280px;text-align: center;">
                 <div class="p-2 bg-white" style="height:280px;">
                         <hr style="margin-top:0">
@@ -121,69 +144,44 @@ $(window).resize(function(){
                                 <p>Total Patients</p>
                             </div>
                             <div class="col-6 col-lg-6" style="text-align:center">
-                                <p class="text-black" ><span class="text-primary"><strong><?php echo "673"?></strong></span></p>
-                                <p>Total Appointments</p>
+                                <p class="text-black" ><span class="text-primary"><strong><?php echo TotalVisits($userId)?></strong></span></p>
+                                <p>Total Visits</p>
                             </div>
                             <div class="col-6 col-lg-6" style="text-align:center">
-                                <p class="text-black"><span class="text-primary"><strong><?php echo "45"."</br>"?></strong></span></p>
-                                <p>Pattients with one visit</p>
+                                <p class="text-black"><span class="text-primary"><strong><?php echo PatientsWithOneVisit($userId)."</br>"?></strong></span></p>
+                                <p>Patients with one visit</p>
                             </div>
                             <div class="col-6 col-lg-6" style="text-align:center">
-                                <p class="text-black"><span class="text-primary"><strong><?php echo "123"."</br>"?></strong></span></p>
-                                <p>Return pattients</p>
+                                <p class="text-black"><span class="text-primary"><strong><?php echo ReturningPatients($userId)."</br>"?></strong></span></p>
+                                <p>Returning patients</p>
                             </div>
                         </div> 
                 </div>
         </div>
-        <div class="col-lg-4 col-lg-push-3 col-sm-12 col-xs-12 order-lg-5 order-5" style="height:280px">
-                <div class="p-2 bg-white" style="height:250px">
-                        <h6  style="padding-left:15px;padding-top:15px">Appointment Request</h6>
-                </div>
-        </div>
-        <div class="col-lg-4 col-lg-push-3 col-sm-12 col-xs-12 order-lg-6 order-6" style="height:280px">
-                <div class="p-2 bg-white" style="height:250px">
-                        <h6  style="padding-left:15px;padding-top:15px">Appointments</h6>
-                </div>
-        </div>
-        <div class="col-lg-3 col-lg-push-3 col-sm-12 col-xs-12 order-lg-7 order-4" style="height:280px">
+        <div class="col-lg-3 col-lg-push-3 col-sm-12 col-xs-12 order-lg-6 order-4" style="height:280px">
                 <div class="p-2 bg-white" style="height:250px;text-align:center">
-                        <h6 class="text-black">Today appointments(limit 30)</h6>
-                        <div class="progress">
-                            <div class="progress-bar w-25" role="progressbar" aria-valuemin="0" aria-valuemax="100">7</div>
-                        </div>
-                        <hr>
                         <div class="row justify-content-lg-center">
                             <div class="col-sm-3 col-md-3 col-lg-5" style="margin-top:25px">
-                                    <form action="" method="POST">
-                                        <button type="submit" class="btn btn-primary " style="width:80%;padding-left:5px">New Appointment</button>
-                                    </form>
+                                <a href="./Visits/ListOfVisits.php" type="button" class="btn btn-primary" style="width:80%;padding-left:5px">All Visits</a>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-5" style="margin-top:25px">
-                                    <form action="" method="POST">
-                                        <button type="button" class="btn btn-success  " style="width:80%;">New Pattient</button>
-                                    </form>
+                                <a href="./Pattients/NewPatient.php" type="button" class="btn btn-success" style="width:80%;padding-left:5px">New Patient</a>
                             </div>
                         </div>
                 </div>
         </div>
-        <div class="col-lg-8 col-lg-push-3 col-sm-12 col-xs-12 order-lg-8 order-7 " style="height:280px">
+        <div class="col-lg-8 col-lg-push-3 col-sm-12 col-xs-12 order-lg-5 order-6 " style="height:280px">
             <div class="p-2 bg-white" style="height:250px">
-                <h6  style="padding-left:15px;padding-top:15px">Recent Pattients</h6>
-                <div class="row justify-content" style="margin-left:5px; text-align:center">
+                <h6  style="padding-left:15px;padding-top:15px">Recent Visits for current month</h6>
+                <div class="row justify-content text-primary" style="margin-left:5px; text-align:center">
                     <div class="col-4 col-lg-2 "  style="font-size:0.8rem;">
                     Last name
                     </div>
                     <div class="col-4 col-lg-2"  style="font-size:0.8rem;">
                     First name
                     </div>
-                    <div class="col-4 col-lg-1"  style="font-size:0.8rem;">
-                    Pattient code
-                    </div>
                     <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"> <!-- visible only on large screens -->
                     Age
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"> <!-- visible only on large screens -->
-                    Gender
                     </div>
                     <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"> <!-- visible only on large screens -->
                     Address
@@ -195,63 +193,72 @@ $(window).resize(function(){
                     Phone
                     </div>
                     <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"> <!-- visible only on large screens -->
-                    Insurance
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.8rem;"> <!-- visible only on large screens -->
                     AMKA
+                    </div>
+                    <div class="col-4 col-lg-2"  style="font-size:0.8rem;">
+                    Visit at
                     </div>
                 </div>
                 <div style="margin-left:5px;height:150px;overflow:hidden;overflow-y:scroll;text-align:center">
                     <?php 
-                        $recentPatients = GetRecentPatientsByUserId($userId); // Get List with recent pattients from DB 
+                    $counter = 0;
+                        $recentPatients = GetRecentVisitsByUserId($userId); // Get List with recent Visits from DB 
                         if($recentPatients != null){
                             foreach($recentPatients as $pattient){
-                                echo "<a href='#'><div class='row'>"
-                    ?> 
-                    <div class="col-4 col-lg-2 "  style="font-size:0.7rem;">
-                        <?php echo $pattient->Lastname; ?>
-                    </div>
-                    <div class="col-4 col-lg-2"  style="font-size:0.7rem;">
-                        <?php echo $pattient->Firstname; ?>
-                    </div>
-                    <div class="col-4 col-lg-1"  style="font-size:0.7rem;">
-                        <?php echo $pattient->Id; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Age; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Gender; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Address; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Town; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Phone; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Insurance; ?>
-                    </div>
-                    <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
-                        <?php echo $pattient->Amka;?>
-                    </div>
+                                if($counter % 2 == 0){?>
+                                    <div class="p-1 border  bg-light" style="text-align:center">
+                                <?php }else {?>
+                                    <div class="p-1 border" style="text-align:center">
+                                <?php }?>
+                                    <div class="row">
+                                        <div class="col-4 col-lg-2 "  style="font-size:0.7rem;">
+                                            <?php echo $pattient->Lastname; ?>
+                                        </div>
+                                        <div class="col-4 col-lg-2"  style="font-size:0.7rem;">
+                                            <?php echo $pattient->Firstname; ?>
+                                        </div>
+                                        <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
+                                            <?php echo $pattient->Age; ?>
+                                        </div>
+                                        <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
+                                            <?php echo $pattient->Address; ?>
+                                        </div>
+                                        <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
+                                            <?php echo $pattient->Town; ?>
+                                        </div>
+                                        <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
+                                            <?php echo $pattient->Phone; ?>
+                                        </div>
+                                        <div class="col-lg-1 col-4 d-none d-lg-block d-lg-none" style="font-size:0.7rem;"> <!-- visible only on large screens -->
+                                            <?php echo $pattient->Amka;?>
+                                        </div>
+                                        <div class="col-4 col-lg-2"  style="font-size:0.7rem;">
+                                            <?php echo $pattient->VisitAt; ?>
+                                        </div>
+                                    </div>
+                                </div><?php $counter++?>
                     
-                        <?php  echo "</div></a>";}}else{ echo "<div class='col-12 center-block' style='font-size:0.8rem;text-align:center;margin-top:10px'>No recent users found</div>";}?>
+                        <?php }}else{ echo "<div class='col-12 center-block' style='font-size:0.8rem;text-align:center;margin-top:10px'>No visits found</div>";}?>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-lg-push-8 col-sm-12 col-xs-12 order-lg-9 order-8 " style="height:280px">
-            <div class="p-2 bg-white" style="height:250px">
-                <h6  style="padding-left:15px;padding-top:15px">Incomes</h6>
-            </div>
-        </div>
+       
     </div>
 </div>
 
 </body>
 </html>
-<?php ob_end_flush();?>
+<?php 
+
+function Hashing($string){
+
+    $salt = "MyEncryptionKey";
+    $enc_key = bin2hex($string);
+    $enc_salt = bin2hex($salt);
+    $token = hash('sha512', $enc_key.$enc_salt);
+    return $token;
+}
+ob_end_flush();
+
+?>
 

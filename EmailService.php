@@ -20,11 +20,12 @@ function SendEmail($toEmail, $bodyMessage, $subjectMessage){
    );
     $mail->Host = "smtp.gmail.com";
     $mail->SMTPAuth = true;
+    $mail->isSMTP();
     $mail->SMTPSecure = "tls";
     $mail->Port = 587;
     $mail->Username = "medical.agenda.crm@gmail.com";
     $mail->Password = "Sofitel06";
-    //$mail->SMTPDebug = 4;
+    //$mail->SMTPDebug = 4;  // show error messages
     $mail->SetFrom("medical.agenda.crm@gmail.com", "Medical Agenda");
     $mail->Subject = $subjectMessage;
     $mail->isHTML(true);

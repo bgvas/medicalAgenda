@@ -1,3 +1,5 @@
+<?php ob_start(); ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,13 +33,10 @@
             </button>
             <div id="myBar" class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a href="../DashBoard.php" class="nav-link"><span id = "home">Home</span></a></li>
-                    <li class="nav-item"><a href="../Pattients/Patients.php" class="nav-link"><span id = "patients">Patients</span></a></li>
-                    <li class="nav-item"><a href="../Users/userProfile.php" class="nav-link"><span id="profile">Profile</span></a></li>
                     <li class="nav-item"><a href="../Authorization/Login.html" class="nav-link">Exit</a></li>
                 </ul>
             </div>
         </nav>
 
 
-        
+<?php ob_end_flush();?>

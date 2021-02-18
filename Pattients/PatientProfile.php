@@ -17,11 +17,11 @@
     $token = GenerateToken($userId);        // refresh token in Cookie and in DB every time the user comes here
     setcookie("token", $token, time() + (600), '/');/// Keep token alive for 10 minutes 
 
-    if(!isset($_GET['id'])){
+    if(!isset($_POST['id'])){
         header("Location: ./Patients.php");
         exit; 
     }
-    $id = $_GET['id'];
+    $id = $_POST['id'];
     $patient = GetPatientByUserIdAndPatientId($userId, $id);
    
     if($patient == new stdClass()){
@@ -31,7 +31,7 @@
 ?>
 
 <title>Patients</title>
-<div class="container-fluid " style="width:90%">
+<div class="container" style="width:100%">
     <div class="row justify-content-center" style="margin-top:80px;">
         <div class="col-12 col-lg-6">
             <div class="p-2 bg-primary border text-white" style="text-align:center"><h5>Patient's profile</h5></div>
@@ -71,7 +71,7 @@
                         <div class="border bg-white p-2" style="width:100%"><?php echo $patient->Email; ?></div>
                     </div>
                     <div class="col-5 col-lg-5 p-2 pb-4"><strong>Created at</strong>
-                        <div class="border bg-white p-2" style="width:100%"><?php echo $patient->CreatedAt; ?></div>
+                        <div class="border bg-white p-2" style="width:100%"><?php $date = new DateTime($patient->CreatedAt); echo $date->format('d-m-Y'); ?></div>
                     </div>
                 </div>
             </div>
@@ -90,16 +90,36 @@
                        <div class="border bg-white p-2" style="width:100%"><?php echo $patient->LastVisitAt; ?></div>
                     </div>
                     <div class="col-10 col-lg-10 p-2"><strong>Medical Bio</strong>
-                       <div class="border bg-white p-2 " style="width:100%;height:80px;font-size:0.8rem;overflow:hidden;overflow-y:scroll"><?php echo $patient->MedicalBio;?></div>
-                       <div class="p-2" style="width:100%;text-align:center"><a href="./EditPatientProfile.php?id=<?php echo $patient->Id;?>" class="btn btn-info btn-sm" role="button" style="width:60%">Edit patient</a></div>
-                       <div class="p-2" style="width:100%;text-align:center"><a href="#" class="btn btn-info btn-sm" role="button" style="width:60%">View all visits</a></div>
-                       <div class="p-2" style="width:100%;text-align:center"><a href="#" class="btn btn-danger btn-sm" role="button" style="width:60%">Delete patient</a></div>
+                       <textarea class="border border-primary p-2 " style="width:100%;height:80px;font-size:0.8rem;overflow:hidden;overflow-y:scroll" disabled><?php echo $patient->MedicalBio;?></textarea>
+                       <form action="./EditPatientProfile.php" method="post">
+                            <div class="p-2" style="width:100%;text-align:center">
+                                    <button class="btn btn-info btn-sm" role="button" style="width:60%">Edit patient</button>
+                                    <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                            </div>
+                       </form>
+                       <form action="../Visits/ListOfVisits.php" method="post">
+                            <div class="p-2" style="width:100%;text-align:center">
+                                    <input type="hidden" name="id" value="<?php echo $id?>"/>
+                                    <input type="submit" class="btn btn-info btn-sm" value="View All Visits" style="width:60%">
+                            </div>
+                       </form>
+                       <form action="../Visits/NewVisit.php" method="post">
+                            <div class="p-2" style="width:100%;text-align:center">
+                                    <button class="btn btn-info btn-sm" role="button" style="width:60%">Add a new visit</button>
+                                    <input type="hidden" name="id" value="<?php echo $patient->Id;?>"/>
+                            </div>
+                       </form>
+                       <form action="./DeletePatient.php" method="post">
+                            <div class="p-2" style="width:100%;text-align:center">
+                                    <button class="btn btn-danger btn-sm" role="button" style="width:60%">Delete patient</button>
+                                    <input type="hidden" name="id" value="<?php echo $patient->Id;?>"/>
+                            </div>
+                       </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</body>
-</html>
+
 <?php ob_end_flush();?>
