@@ -23,31 +23,34 @@ function passwordValidation(){
 function Responses(){
     var url = window.location.search;
     if(url.includes("errorlogin")){
-       document.getElementById("messages").innerHTML = "<span style='color:Red';>Error Username or Password!!!</span>";
+       document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>Error Username or Password!!!</h2></span>";
     }
     if(url.includes("usernotfound")){
-        document.getElementById("messages").innerHTML = "<span style='color:Red;'>Can't find user!!!</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>Can't find user!!!</h2></span>";
     }
     if(url.includes("errorEmail")){
-        document.getElementById("messages").innerHTML = "<span style='color:Red;'>There is no user with this Email address</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>There is no user with this Email address</h2></span>";
     }
     if(url.includes("updated")){
-        document.getElementById("messages").innerHTML = "<span style='color:Blue;'>Password updated!</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:DarkBlue'><h2>Password updated!</h2></span>";
     }
     if(url.includes("userexists")){
-        document.getElementById("messages").innerHTML = "<span style='color:Red;'>This email address already exists.</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Red'></h2>This email address already exists.</h2></span>";
     }
     if(url.includes("emptyfields")){
-        document.getElementById("messages").innerHTML = "<span style='color:Red;'>You have some empty fields</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>You have some empty fields</h2></span>";
     }
     if(url.includes("errorProcess")){
-        document.getElementById("messages").innerHTML = "<span style='color:Red;'>Error processing. Try again</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>Error processing. Try again</h2></span>";
     }
     if(url.includes("registrationerror")){
-        document.getElementById("messages").innerHTML = "<span style='color:Red;'>Error while sending registration email. Try again</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>Error while sending registration email. Try again</h2></span>";
     }
     if(url.includes("usercreated")){
-        document.getElementById("messages").innerHTML = "<span style='color:Blue;'>User created successful. Now Login to insert.</span>";
+        document.getElementById("messages").innerHTML = "<span style='color:Blue'><h2>User created successful. Now Login to insert.</h2></span>";
+    }
+    if(url.includes("patientIdDoesNotExist")){
+        document.getElementById("messages").innerHTML = "<span style='color:Red'><h2>There is no patient with this id. Ask your doctor.</h2></span>";
     }
 
 }
@@ -81,6 +84,7 @@ function OddDiv(){
 function isNumber(evt) {
    console.log("Hello");
 }
-function deleteAlert() {
 
+function activateVisitor() {
+    document.getElementById("patientId").disabled = false;
 }

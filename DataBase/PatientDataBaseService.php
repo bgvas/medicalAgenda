@@ -1,22 +1,21 @@
 <?php
+    ob_start();
     Include_once "Connect.php";
         
-
+    var_dump("db");
     function GetNumberOfPatientsByUserId($userId){
         $connect = ConnectToDB();
         $sql = "SELECT * FROM pattient WHERE userid = '$userId'";
         if($result = mysqli_query($connect, $sql)){
             $total = mysqli_num_rows($result);
             if($total < 0){
-                return -1;
                 DisconnectFromDB($connect);
-                exit;
+                return -1;
             }
             return $total;
         }
-        return -1;
         DisconnectFromDB($connect);
-        exit;
+        return -1;
     }
 
 
@@ -47,14 +46,12 @@
                             
                 $pattients[] = $pat;
             }
-            return $pattients;
+
             DisconnectFromDB($connect);
-            exit;
+            return $pattients;
         }
-        
-        return false;
         DisconnectFromDB($connect);
-        exit;
+        return false;
     }
 
     function GetAverageAgeOfPatientsByUserId($userId){
@@ -62,14 +59,13 @@
         $sql = "SELECT AVG(age) AS averageage FROM pattient WHERE userid = '$userId'";
         if($result = mysqli_query($connect, $sql)){
             $row = mysqli_fetch_assoc($result);
-            return intval($row['averageage']);
+
             DisconnectFromDB($connect);
-            exit;
+            return intval($row['averageage']);
         }
         else{
-            return false;
             DisconnectFromDB($connect);
-            exit;
+            return false;
         }
     }
 
@@ -87,52 +83,52 @@
             $fmales = mysqli_num_rows($fmaleResult);
         }
         else{
-            return -1;
             DisconnectFromDB($connect);
-            exit;
+            return -1;
         }
         $totals->Males = $males;
         $totals->Fmales = $fmales;
-        return $totals;
-        DisconnectFromDB($connect);
-        exit;
 
+        DisconnectFromDB($connect);
+        return $totals;
     }
 
-    function GetRecentPatientsByUserId($userId){
+    function GetRecentVisitsByUserId($userId){
         $connect = ConnectToDB();
-        $sql = "SELECT * FROM pattient WHERE userid = '$userId' AND lastvisitat = createdat ORDER BY lastname ASC";
-        if($result = mysqli_query($connect, $sql)){
-        
-            $patients = array();
+        $monthNow = date("m");
+        $sql = "SELECT * FROM visits WHERE MONTH(visitAt) = ".$monthNow." AND userId = $userId";
+        $i = 0;
+        $ids = [];
+        $dates = [];
+        $patients = [];
+        if($result = mysqli_query($connect, $sql)){ 
             while($row = mysqli_fetch_array($result)){
-                
-                $pat = new stdClass();
-                $pat->Id = $row['id'];
-                $pat->Lastname = $row['lastname'];
-                $pat->Firstname = $row['firstname'];
-                $pat->Gender = $row['gender'];
-                $pat->Age = $row['age'];
-                $pat->Address = $row['address'];
-                $pat->Town = $row['town'];
-                $pat->Phone = $row['phone'];
-                $pat->Amka = $row['amka'];
-                $pat->Insurance = $row['insurance'];
-                $pat->CreatedAt = $row['createdat'];
-                $pat->LastVisitAt = $row['lastvisitat']; 
-                $pat->UserId = $row['userid'];
-                
-                            
-                $patients[] = $pat;
+                $ids[] = $row['patientId'];
+                $dates[] = $row['visitAt'];
             }
-            return $patients;
-            DisconnectFromDB($connect);
-            exit;
         }
-        
-        return false;
+        foreach($ids as $id){
+            $pat = new stdClass();
+            $sql = "SELECT * FROM pattient WHERE userId = $userId AND id = $id";
+            if($result = mysqli_query($connect, $sql)){
+                while($row = mysqli_fetch_array($result)){
+                    $pat->Lastname = $row['lastname'];
+                    $pat->Firstname = $row['firstname'];
+                    $pat->Age = $row['age'];
+                    $pat->Address = $row['address'];
+                    $pat->Town = $row['town'];
+                    $pat->Phone = $row['phone'];
+                    $pat->Amka = $row['amka'];
+                    $pat->VisitAt = $dates[$i];
+
+                    $patients[] =  $pat;
+                   
+                }
+            }
+            $i++;
+        }
         DisconnectFromDB($connect);
-        exit;
+        return $patients;
     }
     
 
@@ -169,16 +165,12 @@
             $patients->a31To50 = $a31To50;
             $patients->a51To70 = $a51To70;
             $patients->a70plus = $a70plus;
-            
-            return $patients;
-            
+
             DisconnectFromDB($connect);
-            exit;
+            return $patients;
         }
-        
-        return false;
         DisconnectFromDB($connect);
-        exit;
+        return false;
     }
 
     function GetPatientByUserIdAndPatientId($userId, $id){
@@ -211,14 +203,12 @@
                             
                 //$patient[] = $pat;
             }
-            return $pat;//$patients;
             DisconnectFromDB($connect);
-            exit;
+            return $pat;//$patients;
         }
-        
-        return false;
+
         DisconnectFromDB($connect);
-        exit;
+        return false;
     }
 
     function UpdatePatientById($patientToUpdate){
@@ -238,14 +228,207 @@
             WHERE id = '$patientToUpdate->Id'";
 
         if($result = mysqli_query($connect, $sql)){
-            return true;
             DisconnectFromDB($connect);
-            exit;
+            return true;
         }
         else{
-            return false;
             DisconnectFromDB($connect);
-            exit;
+            return false;
         }
     }
+
+    function DeletePatient($patientId){
+        $connect = ConnectToDB();
+
+        $sql = "DELETE FROM pattient WHERE id = '".$patientId."'";
+        if($result = mysqli_query($connect, $sql)) {
+            DisconnectFromDB($connect);
+            return true;
+        }
+        else{
+            DisconnectFromDB($connect);
+            return false;
+        }
+    }
+
+    function AddNewVisit($newVisit){
+       
+        $patientId = $newVisit->patientId;
+        $userId = $newVisit->userId;
+        $visitAt = $newVisit->visitAt;
+        $glucose = $newVisit->glucose;
+        $systolic = $newVisit->systolic;
+        $diastolic = $newVisit->diastolic;
+        $txtArea = $newVisit->comments;
+       
+        $connect = ConnectToDB();
+
+        $sql = "INSERT INTO visits (userId, patientId, visitAt, systolic, diastolic, glucose, comments)VALUES
+        ($userId, $patientId, '".$visitAt."', $systolic, $diastolic, $glucose, '".$txtArea."')";
+
+        $updateSql = "UPDATE pattient SET lastvisitat = '".$visitAt."' WHERE id = ".$patientId."";
+      
+        if($result = mysqli_query($connect, $sql) && $updateResult = mysqli_query($connect, $updateSql)){
+            DisconnectFromDB($connect);
+            return true;
+        }
+        else{
+            DisconnectFromDB($connect);
+            return false;
+        }
+    }
+
+    function AddNewPatient($newPatient){
+
+        $userId = $newPatient->userId;
+        $fname = $newPatient->fname;
+        $lname = $newPatient->lname;
+        $age = $newPatient->age;
+        $gender = $newPatient->gender;
+        $address = $newPatient->address;
+        $zipCode = $newPatient->zipCode;
+        $town = $newPatient->town;
+        $email = $newPatient->email;
+        $phone = $newPatient->phone;
+        $insurance = $newPatient->insurance;
+        $amka = $newPatient->amka;
+        $createdAt = date("Y-m-d  H:m:s");
+        $connect = ConnectToDB();
+
+
+
+        $sql = "INSERT INTO pattient(firstname, lastname, age, address, gender, town, phone, insurance, amka, createdat, userid, email, zipcode, lastvisitat)
+        VALUES ('".$fname."','".$lname."', $age,'".$address."', '".$gender."','".$town."', '".$phone."', '".$insurance."', '".$amka."', '".$createdAt."', $userId, '".$email."', $zipCode, '".$createdAt."')";
+        
+        if($result = mysqli_query($connect, $sql)){
+            DisconnectFromDB($connect);
+            return true;
+        }
+        else {
+            DisconnectFromDB($connect);
+            return false;
+        }
+
+    }
+
+    function VisitsPerMonth($userId, $month){
+        $connect = ConnectToDB();
+        
+        $sql = "SELECT * FROM visits WHERE MONTH(visitAt) = $month AND userId = $userId";
+        if($result = mysqli_query($connect, $sql)){
+            $total = mysqli_num_rows($result);
+            return $total;
+        }
+        else return 0;
+
+    }
+
+    function TotalVisits($userId){
+        $connect = ConnectToDB();
+        
+        $sql = "SELECT * FROM visits WHERE userId = $userId";
+        if($result = mysqli_query($connect, $sql)){
+            $total = mysqli_num_rows($result);
+            return $total;
+        }
+        else return 0; 
+    }
+
+    function PatientsWithOneVisit($userId){
+        $connect = ConnectToDB();
+              
+        $sql = "SELECT * FROM visits WHERE userId = $userId GROUP BY patientId having COUNT(*) < 2";
+        if($result = mysqli_query($connect, $sql)){
+            $total = mysqli_num_rows($result);
+            return $total;
+        }
+        else return 0; 
+    }
+
+    function ReturningPatients($userId){
+        
+        return (TotalVisits($userId) - PatientsWithOneVisit($userId));
+    }
+
+    function GetListOfAllVisitsByUserId($userId){
+        $connect = ConnectToDB();
+      
+        $sql = "SELECT * FROM visits WHERE userId = $userId ORDER BY visitAt";
+        $i = 0;
+        $ids = [];
+        $dates = [];
+        $patients = [];
+        if($result = mysqli_query($connect, $sql)){ 
+            while($row = mysqli_fetch_array($result)){
+                $ids[] = $row['patientId'];
+                $dates[] = $row['visitAt'];
+            }
+        }
+        
+        foreach($ids as $id){
+            $pat = new stdClass();
+            $sql = "SELECT * FROM pattient WHERE userId = $userId AND id = $id";
+            if($result = mysqli_query($connect, $sql)){
+                while($row = mysqli_fetch_array($result)){
+                    $pat->Lastname = $row['lastname'];
+                    $pat->Firstname = $row['firstname'];
+                    $pat->Age = $row['age'];
+                    $pat->Address = $row['address'];
+                    $pat->Town = $row['town'];
+                    $pat->Phone = $row['phone'];
+                    $pat->Amka = $row['amka'];
+                    $pat->VisitAt = $dates[$i];
+
+                    $patients[] =  $pat;
+                   
+                }
+            }
+            $i++;
+        }
+        DisconnectFromDB($connect);
+        return $patients;
+         
+    }
+
+    function GetListOfAllVisitsOfPatientByUserId($id, $userId){
+        $connect = ConnectToDB();
+        $monthNow = date("m");
+        $sql = "SELECT * FROM visits WHERE userId = $userId AND patientId = $id ORDER BY visitAt";
+    
+        if($result = mysqli_query($connect, $sql)){
+        
+            $patients = array();
+            $pat = new stdClass();
+            while($row = mysqli_fetch_array($result)){
+                $pat->VisitAt = $row['visitAt'];
+                $pat->Systolic = $row['systolic'];
+                $pat->Diastolic = $row['diastolic'];
+                $pat->Glucose = $row['glucose'];
+                $pat->Comments = $row['comments'];
+                                    
+                $patients[] = $pat;
+            
+            }
+            
+            DisconnectFromDB($connect);
+            return $patients;
+        }
+        DisconnectFromDB($connect);
+        return false;
+    }
+
+    function CheckIfPatientIdExist($patientId){
+       
+        $connect = ConnectToDB();
+        $sql = "SELECT * FROM pattient WHERE id = $patientId";
+        if($result = mysqli_query($connect, $sql)){
+            $total = mysqli_num_rows($result);
+            if($total < 1){
+                return false;
+            }
+            else return true;
+        }
+    }
+
+    ob_end_flush();
 ?>

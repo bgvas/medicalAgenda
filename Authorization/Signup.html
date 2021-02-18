@@ -8,31 +8,49 @@
 <meta name="description" content="My Project, for www univercity class" >
 <meta name="author" content="Vasileios Georgoulas">
 <meta name="keywords" content="HTML,CSS,JavaScript, PHP">
-<link rel="stylesheet" href="../style.css">
-<script src="../MyJavaScriptFile.js"></script>
+<link rel="stylesheet" href="../Decorations/style.css">
+    <script src="../MyJavaScriptFile.js"></script>
 </head>
 
-<body onload="Responses()">
+<script>
+    function activateVisitor(value) {
+    document.getElementById("patientId").disabled = value;
+}
+</script>
+
+<body onload="Responses()" class="body-color">
+    <div class="box">
         <div class="bigTitle">
-            <h1>Registration</h1>
+            <p style="font-size: 50px; color:black">Registration</p>
             <h5><p id="messages"></p></h5>
             <form action="./Registration.php" name="registerForm" method="POST">
-                <p style="text-align: left;">Username (your email) *</p>
-                <p><input type="email" required name="username" class="inputFields" placeholder="Email" id="username"></p>
-                <p style="text-align: left;">Password *</p>
-                <p><input type="text" required name="password" class="inputFields" placeholder="Password" id="pass" onkeyup="passwordValidation()" ></p>
+                <p style="text-align: left; padding-left: 10%">Username*</p>
+                <p><input type="text" required name="username" class="inputFields" placeholder="username" id="username"></p>
+                <p style="text-align: left; padding-left: 10%">Password *</p>
+                <p><input type="password" required name="password" class="inputFields" placeholder="Password" id="pass" onkeyup="passwordValidation()" ></p>
                 <p style= "text-align:center" id="passwordvalidator"></p>
-                <p style="text-align: left;">Type again the password *</p>
+                <p style="text-align: left; padding-left: 10%">Type again the password *</p>
                 <p><input type="password" required name="password2" class="inputFields" placeholder="Repeat Password" id="re-pass" onkeyup="equality()"></p>
                 <p style= "text-align:center" id="checkEquality"></p>
-                <p style="text-align: left;">First name</p>
+                <p style="text-align: left; padding-left: 10%">First name</p>
                 <p><input type="text" name="firstname" class="inputFields" placeholder="First name"></p>
-                <p style="text-align: left;">Last name</p>
+                <p style="text-align: left; padding-left: 10%">Last name</p>
                 <p><input type="text" name="lastname" class="inputFields" placeholder="Last name"></p>
+                <p style="text-align: left; padding-left: 10%">Email</p>
+                <p><input type="email" name="email" class="inputFields" placeholder="Email" required selected></p>
+                <div>
+                    <div style="margin-bottom:10px">Doctor<input type="radio" value="doctor" onclick="activateVisitor(true)" name="role" checked></div>
+                    <div>Visitor<input type="radio" value="visitor" onclick="activateVisitor(false)" name="role" selected></div>
+                </div>
+
+                <p><input type="number" name="patientId" id="patientId"  class="inputFields" disabled = "true" placeholder="Id of patient" required></p>
                 <p><input type="submit" class="buttons" id="sbutton" value="Press to SignUp..." disabled="true"/></p>
             </form>
             <p><a href="./Login.html" class="linkHref">Return to login form.</a></p>
         </div>
+    </div>
    
 </body>
+
+
 </html> 
